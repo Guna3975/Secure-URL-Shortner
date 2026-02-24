@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Shorten URL</title>
+<style>
+body{text-align:center;font-family:Arial;background:#eef}
+input{padding:10px;width:300px}
+button{padding:10px 20px}
+</style>
+</head>
+<body>
+
+<script>
+if(!localStorage.getItem("token")){
+location.href="login.html"
+}
+</script>
+
+<h2>URL Shortener</h2>
+
+<input id="url" placeholder="Enter URL"><br><br>
+
+<button onclick="shorten()">Shorten</button>
+
+<p id="out"></p>
+
+<script>
+function shorten(){
+let url=document.getElementById("url").value
+
+if(!url){
+alert("Enter URL")
+return
+}
+
+let fake="http://short.ly/"+Math.random().toString(36).substring(7)
+document.getElementById("out").innerHTML=fake
+}
+</script>
+
+</body>
+</html>

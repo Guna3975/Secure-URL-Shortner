@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Login</title>
+<style>
+body{text-align:center;font-family:Arial;background:#f4f4f4}
+input{padding:10px;margin:10px}
+button{padding:10px 20px}
+</style>
+</head>
+<body>
+
+<h2>Login</h2>
+
+<input id="email" placeholder="Email"><br>
+<input id="pass" type="password" placeholder="Password"><br>
+
+<button onclick="login()">Login</button>
+
+<script>
+function login(){
+let email=document.getElementById("email").value
+let pass=document.getElementById("pass").value
+
+if(email && pass){
+localStorage.setItem("token","demo-token")
+location.href="dashboard.html"
+}else{
+alert("Enter details")
+}
+}
+</script>
+
+</body>
+</html>
