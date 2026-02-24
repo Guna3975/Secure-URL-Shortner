@@ -17,6 +17,7 @@
       --muted: #a0a0cc;
       --border: rgba(255,255,255,0.08);
       --glow: rgba(0,212,255,0.25);
+      --success: #22c55e;
     }
     * { margin:0; padding:0; box-sizing:border-box; }
     body {
@@ -27,128 +28,67 @@
       display:flex;
     }
 
-    /* Sidebar */
-    aside {
-      width:280px;
-      background: var(--sidebar);
-      backdrop-filter: blur(16px);
-      border-right:1px solid var(--border);
-      padding:2rem 1.5rem;
-      height:100vh;
-      position:fixed;
-      overflow-y:auto;
-      transition:transform 0.3s;
-    }
-    .logo {
-      font-size:2rem; font-weight:700;
-      background: linear-gradient(90deg, var(--accent), var(--accent2));
-      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
-      margin-bottom:3rem;
-    }
+    aside { width:280px; background:var(--sidebar); backdrop-filter:blur(16px);
+      border-right:1px solid var(--border); padding:2rem 1.5rem; height:100vh;
+      position:fixed; overflow-y:auto; transition:transform 0.3s; }
+    .logo { font-size:2rem; font-weight:700; background:linear-gradient(90deg,var(--accent),var(--accent2));
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent; margin-bottom:3rem; }
     nav ul { list-style:none; }
     nav li { margin-bottom:1.2rem; }
-    nav a {
-      display:flex; align-items:center; gap:1rem;
-      color:var(--muted); text-decoration:none; font-weight:500;
-      padding:0.9rem 1.2rem; border-radius:0.8rem;
-      transition:all 0.3s;
-    }
-    nav a:hover, nav a.active {
-      background:rgba(255,255,255,0.08);
-      color:var(--accent);
-    }
+    nav a { display:flex; align-items:center; gap:1rem; color:var(--muted); text-decoration:none; font-weight:500;
+      padding:0.9rem 1.2rem; border-radius:0.8rem; transition:all 0.3s; cursor:pointer; }
+    nav a:hover, nav a.active { background:rgba(255,255,255,0.08); color:var(--accent); }
     nav .icon { font-size:1.3rem; }
 
-    /* Main content */
-    main {
-      margin-left:280px;
-      flex:1; padding:2.5rem;
-    }
-    header {
-      display:flex; justify-content:space-between; align-items:center;
-      margin-bottom:2.5rem; flex-wrap:wrap; gap:1rem;
-    }
+    main { margin-left:280px; flex:1; padding:2.5rem; }
+    header { display:flex; justify-content:space-between; align-items:center; margin-bottom:2.5rem; flex-wrap:wrap; gap:1rem; }
     h1 { font-size:2.2rem; font-weight:700; }
 
-    /* Stats grid */
-    .stats {
-      display:grid;
-      grid-template-columns:repeat(auto-fit, minmax(240px,1fr));
-      gap:1.5rem;
-      margin-bottom:3rem;
-    }
-    .stat-card {
-      background:var(--card);
-      backdrop-filter:blur(20px);
-      border:1px solid var(--border);
-      border-radius:1.2rem;
-      padding:1.8rem;
-      box-shadow:0 15px 40px rgba(0,0,0,0.5);
-      transition:transform 0.3s;
-    }
+    .section { display:none; }
+    .section.active { display:block; }
+
+    .stats { display:grid; grid-template-columns:repeat(auto-fit, minmax(240px,1fr)); gap:1.5rem; margin-bottom:3rem; }
+    .stat-card { background:var(--card); backdrop-filter:blur(20px); border:1px solid var(--border); border-radius:1.2rem;
+      padding:1.8rem; box-shadow:0 15px 40px rgba(0,0,0,0.5); transition:transform 0.3s; }
     .stat-card:hover { transform:translateY(-6px); }
     .stat-card h3 { font-size:1.1rem; color:var(--muted); margin-bottom:0.6rem; }
-    .stat-value { font-size:2.2rem; font-weight:700; background:linear-gradient(90deg,var(--accent),var(--accent2)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+    .stat-value { font-size:2.2rem; font-weight:700; background:linear-gradient(90deg,var(--accent),var(--accent2));
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
 
-    /* Quick shorten */
-    .quick-form {
-      background:var(--card);
-      backdrop-filter:blur(20px);
-      border:1px solid var(--border);
-      border-radius:1.2rem;
-      padding:2rem;
-      margin-bottom:3rem;
-    }
+    .quick-form { background:var(--card); backdrop-filter:blur(20px); border:1px solid var(--border); border-radius:1.2rem;
+      padding:2rem; margin-bottom:3rem; }
     .quick-form form { display:flex; gap:1rem; flex-wrap:wrap; }
-    .quick-form input {
-      flex:1; min-width:300px;
-      padding:1.1rem 1.4rem;
-      background:rgba(15,15,30,0.7);
-      border:1px solid var(--border);
-      border-radius:0.9rem;
-      color:white; font-size:1.05rem;
-      outline:none;
-    }
+    .quick-form input { flex:1; min-width:300px; padding:1.1rem 1.4rem; background:rgba(15,15,30,0.7);
+      border:1px solid var(--border); border-radius:0.9rem; color:white; font-size:1.05rem; outline:none; }
     .quick-form input:focus { border-color:var(--accent); box-shadow:0 0 0 3px var(--glow); }
-    .quick-form button {
-      padding:1.1rem 2.5rem;
-      background:linear-gradient(90deg,var(--accent),var(--accent2));
-      border:none; border-radius:0.9rem;
-      color:white; font-weight:600; font-size:1.05rem;
-      cursor:pointer; transition:all 0.3s;
-    }
+    .quick-form button { padding:1.1rem 2.5rem; background:linear-gradient(90deg,var(--accent),var(--accent2));
+      border:none; border-radius:0.9rem; color:white; font-weight:600; font-size:1.05rem; cursor:pointer; transition:all 0.3s; }
     .quick-form button:hover { transform:translateY(-2px); box-shadow:0 12px 35px var(--glow); }
 
-    /* Links grid */
-    .links-grid {
-      display:grid;
-      grid-template-columns:repeat(auto-fill, minmax(340px,1fr));
-      gap:1.8rem;
-    }
-    .link-card {
-      background:var(--card);
-      backdrop-filter:blur(20px);
-      border:1px solid var(--border);
-      border-radius:1.2rem;
-      padding:1.8rem;
-      transition:transform 0.3s, box-shadow 0.3s;
-    }
-    .link-card:hover {
-      transform:translateY(-8px);
-      box-shadow:0 20px 50px rgba(0,212,255,0.15);
-    }
-    .short-link {
-      font-size:1.3rem; font-weight:600; color:var(--accent);
-      margin-bottom:0.8rem; word-break:break-all;
-    }
+    .links-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(340px,1fr)); gap:1.8rem; }
+    .link-card { background:var(--card); backdrop-filter:blur(20px); border:1px solid var(--border); border-radius:1.2rem;
+      padding:1.8rem; transition:transform 0.3s; }
+    .link-card:hover { transform:translateY(-8px); box-shadow:0 20px 50px rgba(0,212,255,0.15); }
+    .short-link { font-size:1.3rem; font-weight:600; color:var(--accent); margin-bottom:0.8rem; word-break:break-all; }
     .long-link { font-size:0.95rem; color:var(--muted); margin-bottom:1rem; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
-    .meta { display:flex; justify-content:space-between; align-items:center; font-size:0.9rem; color:var(--muted); }
-    .clicks { background:rgba(0,212,255,0.12); padding:0.4rem 0.9rem; border-radius:2rem; color:var(--accent); font-weight:500; }
-    .copy-btn {
-      background:none; border:none; color:var(--accent); cursor:pointer; font-size:1.1rem;
-    }
 
-    /* Mobile sidebar toggle */
+    /* Settings styles */
+    .settings-container { background:var(--card); backdrop-filter:blur(20px); border:1px solid var(--border);
+      border-radius:1.2rem; padding:2rem; }
+    .settings-item { margin-bottom:2rem; }
+    .settings-item h3 { margin-bottom:1rem; font-size:1.4rem; }
+    .toggle-switch { position:relative; display:inline-block; width:60px; height:34px; }
+    .toggle-switch input { opacity:0; width:0; height:0; }
+    .slider { position:absolute; cursor:pointer; top:0; left:0; right:0; bottom:0; background-color:var(--muted);
+      transition:.4s; border-radius:34px; }
+    .slider:before { position:absolute; content:""; height:26px; width:26px; left:4px; bottom:4px; background-color:white;
+      transition:.4s; border-radius:50%; }
+    input:checked + .slider { background:var(--accent); }
+    input:checked + .slider:before { transform:translateX(26px); }
+    .btn { padding:0.8rem 1.5rem; border:none; border-radius:0.8rem; font-weight:500; cursor:pointer; transition:all 0.3s; }
+    .btn-primary { background:linear-gradient(90deg,var(--accent),var(--accent2)); color:white; }
+    .btn-primary:hover { transform:translateY(-2px); box-shadow:0 8px 25px var(--glow); }
+
     #sidebarToggle { display:none; }
     @media (max-width:1024px) {
       aside { transform:translateX(-100%); width:260px; }
@@ -160,96 +100,163 @@
 </head>
 <body>
 
-  <!-- Sidebar -->
   <aside id="sidebar">
     <div class="logo">SecureShort</div>
     <nav>
       <ul>
-        <li><a href="#" class="active"><span class="icon">🔗</span> My Links</a></li>
-        <li><a href="#"><span class="icon">📊</span> Analytics</a></li>
-        <li><a href="#"><span class="icon">⚙️</span> Settings</a></li>
-        <li><a href="login.html"><span class="icon">🚪</span> Logout</a></li>
+        <li><a href="#mylinks" class="nav-link active"><span class="icon">🔗</span> My Links</a></li>
+        <li><a href="#analytics" class="nav-link"><span class="icon">📊</span> Analytics</a></li>
+        <li><a href="#settings" class="nav-link"><span class="icon">⚙️</span> Settings</a></li>
+        <li><a href="#" id="logoutBtn"><span class="icon">🚪</span> Logout</a></li>
       </ul>
     </nav>
   </aside>
 
-  <!-- Main -->
   <main>
     <header>
       <button id="sidebarToggle">☰</button>
-      <h1>Dashboard</h1>
-      <div>Welcome, Gunaseelan</div>
+      <h1 id="pageTitle">Dashboard</h1>
+      <div>Welcome, <span id="username">Gunaseelan</span></div>
     </header>
 
-    <!-- Stats -->
-    <div class="stats">
-      <div class="stat-card">
-        <h3>Total Short Links</h3>
-        <div class="stat-value">1,248</div>
+    <!-- My Links -->
+    <div id="mylinks" class="section active">
+      <div class="stats">
+        <div class="stat-card"><h3>Total Short Links</h3><div class="stat-value" id="totalLinks">0</div></div>
+        <div class="stat-card"><h3>Total Clicks</h3><div class="stat-value" id="totalClicks">0</div></div>
+        <div class="stat-card"><h3>Avg. Clicks / Link</h3><div class="stat-value" id="avgClicks">0</div></div>
       </div>
-      <div class="stat-card">
-        <h3>Total Clicks</h3>
-        <div class="stat-value">18.7k</div>
+
+      <div class="quick-form">
+        <form id="quickShortenForm">
+          <input type="url" id="longUrl" placeholder="Paste long URL here..." required/>
+          <button type="submit">Shorten Now</button>
+        </form>
       </div>
-      <div class="stat-card">
-        <h3>Avg. Clicks / Link</h3>
-        <div class="stat-value">15</div>
-      </div>
-      <div class="stat-card">
-        <h3>Active Links</h3>
-        <div class="stat-value">892</div>
+
+      <h2>Your Recent Links</h2>
+      <div class="links-grid" id="linksContainer">
+        <!-- JS will fill this -->
       </div>
     </div>
 
-    <!-- Quick Shorten -->
-    <div class="quick-form">
-      <form id="quickShorten">
-        <input type="url" placeholder="Paste long URL here to shorten instantly..." required/>
-        <button type="submit">Shorten Now</button>
-      </form>
+    <!-- Analytics -->
+    <div id="analytics" class="section">
+      <h1>Analytics Overview</h1>
+      <div class="stats">
+        <div class="stat-card"><h3>Top Country</h3><div class="stat-value">India</div></div>
+        <div class="stat-card"><h3>Top Device</h3><div class="stat-value">Mobile</div></div>
+        <div class="stat-card"><h3>Peak Time</h3><div class="stat-value">8 PM</div></div>
+      </div>
+      <div style="background:var(--card); border-radius:1.2rem; padding:2rem; margin-top:2rem;">
+        <h3>Click Trend (Last 30 days)</h3>
+        <div style="height:300px; background:rgba(255,255,255,0.05); border-radius:1rem; margin-top:1rem;"></div>
+      </div>
     </div>
 
-    <!-- Links -->
-    <h2 style="margin-bottom:1.5rem; font-size:1.8rem;">Your Recent Links</h2>
-    <div class="links-grid" id="linksContainer">
-      <!-- Cards generated by JS below -->
+    <!-- Settings (clean & minimal) -->
+    <div id="settings" class="section">
+      <h1>Settings</h1>
+      <div class="settings-container">
+        <div class="settings-item">
+          <h3>Account Info</h3>
+          <p><strong>Email:</strong> <span id="userEmail">gunaseelan@example.com</span></p>
+          <p><strong>Joined:</strong> February 2026</p>
+          <p><strong>Plan:</strong> Free (upgrade coming soon)</p>
+        </div>
+
+        <div class="settings-item">
+          <h3>Appearance</h3>
+          <label style="display:flex; align-items:center; gap:1rem; cursor:pointer;">
+            <span>Dark Mode</span>
+            <label class="toggle-switch">
+              <input type="checkbox" id="themeToggle" checked>
+              <span class="slider"></span>
+            </label>
+          </label>
+        </div>
+
+        <div class="settings-item">
+          <h3>Notifications</h3>
+          <label style="display:flex; align-items:center; gap:1rem; cursor:pointer;">
+            <input type="checkbox" id="emailNotif" checked>
+            <span>Email notifications for new clicks</span>
+          </label>
+        </div>
+
+        <div class="settings-item" style="margin-top:2rem;">
+          <button class="btn btn-primary">Export My Data</button>
+        </div>
+      </div>
     </div>
   </main>
 
   <script>
-    // Fake data (replace with API fetch later)
-    const fakeLinks = [
-      { short: "secshort.in/abc123", long: "https://example.com/very/long/blog-post-about-ai", clicks: 1248, created: "Feb 20" },
-      { short: "secshort.in/xy789z", long: "https://github.com/gunaseelan/secure-url-shortener", clicks: 567, created: "Feb 18" },
-      { short: "secshort.in/custom-alias", long: "https://your-company.com/pricing-page", clicks: 320, created: "Feb 15" },
-      { short: "secshort.in/qw456", long: "https://news.site/article-on-cyber-security", clicks: 89, created: "Feb 10" },
-    ];
+    // Token check
+    const token = localStorage.getItem('token');
+    if (!token) {
+      alert('Please login first');
+      window.location.href = 'login.html';
+    }
 
-    const container = document.getElementById('linksContainer');
-    fakeLinks.forEach(link => {
-      const card = document.createElement('div');
-      card.className = 'link-card';
-      card.innerHTML = `
-        <div class="short-link">${link.short}</div>
-        <div class="long-link">${link.long}</div>
-        <div class="meta">
-          <span class="clicks">${link.clicks} clicks</span>
-          <span>${link.created} • <button class="copy-btn" onclick="navigator.clipboard.writeText('${link.short}'); alert('Copied!')">Copy</button></span>
-        </div>
-      `;
-      container.appendChild(card);
-    });
-
-    // Quick shorten demo
-    document.getElementById('quickShorten').addEventListener('submit', e => {
+    // Logout
+    document.getElementById('logoutBtn').addEventListener('click', (e) => {
       e.preventDefault();
-      alert('Shortening URL... (connect to FastAPI /shorten endpoint)');
+      localStorage.removeItem('token');
+      window.location.href = 'login.html';
     });
 
-    // Mobile sidebar toggle
+    // Navigation
+    const navLinks = document.querySelectorAll('.nav-link');
+    const sections = document.querySelectorAll('.section');
+    const pageTitle = document.getElementById('pageTitle');
+
+    navLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const targetId = link.getAttribute('href')?.substring(1);
+        if (!targetId) return;
+
+        navLinks.forEach(l => l.classList.remove('active'));
+        link.classList.add('active');
+
+        sections.forEach(s => s.classList.remove('active'));
+        document.getElementById(targetId).classList.add('active');
+
+        pageTitle.textContent = link.textContent.trim();
+      });
+    });
+
+    // Mobile sidebar
     document.getElementById('sidebarToggle').addEventListener('click', () => {
       document.getElementById('sidebar').classList.toggle('open');
     });
+
+    // Quick shorten placeholder
+    document.getElementById('quickShortenForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const url = document.getElementById('longUrl').value.trim();
+      if (url) {
+        alert(`Shortening: ${url}\n(Real API call coming soon)`);
+        document.getElementById('longUrl').value = '';
+      }
+    });
+
+    // Theme toggle (simple dark/light switch)
+    const themeToggle = document.getElementById('themeToggle');
+    themeToggle.addEventListener('change', () => {
+      if (themeToggle.checked) {
+        document.documentElement.classList.remove('light');
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+        document.documentElement.classList.add('light');
+      }
+    });
+
+    // Dummy user info
+    document.getElementById('username').textContent = "Gunaseelan";
+    document.getElementById('userEmail').textContent = "gunaseelan@example.com";
   </script>
 </body>
 </html>

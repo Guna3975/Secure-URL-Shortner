@@ -283,38 +283,41 @@
   </div>
 
   <script>
-    // Password visibility toggle
-    const togglePassword = document.getElementById('togglePassword');
-    const passwordInput = document.getElementById('password');
+   
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
 
-    togglePassword.addEventListener('click', () => {
-      const type = passwordInput.type === 'password' ? 'text' : 'password';
-      passwordInput.type = type;
-      togglePassword.textContent = type === 'password' ? '👁️' : '🙈';
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value;
+
+        try {
+        const response = await fetch('http://localhost:8000/auth/login', {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams({
+            username: email,
+            password: password
+            })
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.detail || 'Login failed');
+        }
+
+        const data = await response.json();
+        localStorage.setItem('token', data.access_token);
+
+        // Redirect to dashboard
+        window.location.href = 'dashboard.html';
+        } catch (error) {
+        alert('Login error: ' + error.message);
+        }
     });
-
-    // Fake form submit (replace with real fetch to FastAPI /login)
-    document.getElementById('loginForm').addEventListener('submit', (e) => {
-      e.preventDefault();
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
-
-      if (email && password) {
-        alert('Logging in... (connect to your FastAPI backend here)');
-        // Example real code:
-        // fetch('http://localhost:8000/login', {
-        //   method: 'POST',
-        //   headers: { 'Content-Type': 'application/json' },
-        //   body: JSON.stringify({ email, password })
-        // })
-        // .then(res => res.json())
-        // .then(data => { if (data.token) window.location.href = '/dashboard.html'; })
-        // .catch(err => alert('Login failed'));
-      } else {
-        alert('Please fill in all fields');
-      }
-    });
-  </script>
+</script>
+  
 
 </body>
 </html>

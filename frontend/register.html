@@ -117,11 +117,6 @@
 
     <form id="registerForm">
       <div class="field">
-        <input type="text" id="username" placeholder=" " required minlength="3" autocomplete="username"/>
-        <label for="username">Username</label>
-      </div>
-
-      <div class="field">
         <input type="email" id="email" placeholder=" " required autocomplete="email"/>
         <label for="email">Email address</label>
       </div>
@@ -202,37 +197,36 @@
     pw.addEventListener('input', checkPasswords);
     confirmPw.addEventListener('input', checkPasswords);
 
-    // Form submit (replace alert with real API call later)
-    document.getElementById('registerForm').addEventListener('submit', e => {
+    // Form submission → real API call to backend
+    document.getElementById('registerForm').addEventListener('submit', async e => {
       e.preventDefault();
 
-      const username = document.getElementById('username').value.trim();
       const email    = document.getElementById('email').value.trim();
       const password = pw.value;
 
-      if (!username || !email || !password) {
+      if (!email || !password) {
         alert('Please fill all fields');
         return;
       }
 
-      // Here you would send to FastAPI
-      // Example:
-      // fetch('http://localhost:8000/register', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify({ username, email, password })
-      // })
-      // .then(res => res.json())
-      // .then(data => {
-      //   if (data.success) window.location.href = 'dashboard.html';
-      //   else alert(data.message || 'Registration failed');
-      // })
-      // .catch(() => alert('Something went wrong'));
+      try {
+        const res = await fetch('http://127.0.0.1:8000/auth/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
 
-      alert('Registration successful! (demo mode)\nRedirecting to dashboard...');
-      setTimeout(() => {
-        window.location.href = 'dashboard.html';
-      }, 1200);
+        if (!res.ok) {
+          const err = await res.json();
+          throw new Error(err.detail || 'Registration failed');
+        }
+
+        alert('Account created successfully!\nNow please login.');
+        window.location.href = 'login.html';
+
+      } catch (err) {
+        alert('Error: ' + err.message);
+      }
     });
   </script>
 </body>
