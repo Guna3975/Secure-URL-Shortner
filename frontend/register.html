@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SecureShort — Create Account</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #0b0b14;
+      --card: rgba(20,20,35,0.55);
+      --accent: #00d4ff;
+      --accent2: #7c3aed;
+      --text: #e0e0ff;
+      --muted: #a0a0cc;
+      --border: rgba(255,255,255,0.07);
+      --glow: rgba(0,212,255,0.22);
+      --success: #22c55e;
+      --error: #ef4444;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height:100vh;
+      display:flex; align-items:center; justify-content:center;
+      padding:1rem;
+    }
+    .card {
+      width:100%; max-width:440px;
+      background: var(--card);
+      backdrop-filter: blur(20px);
+      border:1px solid var(--border);
+      border-radius:1.6rem;
+      padding:3rem 2.2rem;
+      box-shadow:0 30px 80px rgba(0,0,0,0.8);
+    }
+    .logo {
+      text-align:center; font-size:2.4rem; font-weight:700;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+      margin-bottom:0.8rem;
+    }
+    h2 { text-align:center; font-size:1.9rem; margin-bottom:0.4rem; }
+    .sub { text-align:center; color:var(--muted); margin-bottom:2.4rem; }
+
+    .field { position:relative; margin-bottom:1.8rem; }
+    input {
+      width:100%; padding:1.15rem 1rem 1.15rem 1rem;
+      background:rgba(15,15,30,0.7);
+      border:1px solid var(--border);
+      border-radius:0.9rem;
+      color:white; font-size:1rem;
+      outline:none;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    input:focus { border-color:var(--accent); box-shadow:0 0 0 3px var(--glow); }
+
+    label {
+      position:absolute; left:1rem; top:50%; transform:translateY(-50%);
+      color:var(--muted); pointer-events:none; transition:all 0.3s; font-size:1rem;
+    }
+    input:focus + label,
+    input:not(:placeholder-shown) + label {
+      top:-0.7rem; left:1rem; font-size:0.82rem;
+      background:var(--bg); padding:0 0.4rem; color:var(--accent);
+    }
+
+    .eye {
+      position:absolute; right:1.1rem; top:50%; transform:translateY(-50%);
+      cursor:pointer; color:var(--muted); font-size:1.2rem;
+    }
+
+    #passwordMatch {
+      font-size:0.85rem; margin-top:0.4rem; margin-left:0.8rem;
+      display:none;
+    }
+    .match-good { color:var(--success); display:block; }
+    .match-bad  { color:var(--error);   display:block; }
+
+    button {
+      width:100%; padding:1.15rem;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      border:none; border-radius:0.9rem;
+      color:white; font-weight:600; font-size:1.05rem;
+      cursor:pointer; transition:all 0.3s;
+    }
+    button:hover { transform:translateY(-2px); box-shadow:0 15px 40px var(--glow); }
+    button:disabled {
+      opacity:0.5; cursor:not-allowed; transform:none; box-shadow:none;
+    }
+
+    .or { text-align:center; margin:2rem 0; color:var(--muted); }
+    .social { display:flex; gap:1rem; }
+    .social button {
+      flex:1; padding:0.9rem;
+      background:rgba(255,255,255,0.04);
+      border:1px solid var(--border);
+      border-radius:0.9rem;
+      color:var(--text);
+    }
+    .social button:hover { border-color:var(--accent); }
+
+    .bottom { text-align:center; margin-top:2rem; color:var(--muted); }
+    .bottom a { color:var(--accent); text-decoration:none; font-weight:500; }
+    .bottom a:hover { text-decoration:underline; }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <div class="logo">SecureShort</div>
+    <h2>Create Your Account</h2>
+    <p class="sub">Join now and start creating secure short links</p>
+
+    <form id="registerForm">
+      <div class="field">
+        <input type="text" id="username" placeholder=" " required minlength="3" autocomplete="username"/>
+        <label for="username">Username</label>
+      </div>
+
+      <div class="field">
+        <input type="email" id="email" placeholder=" " required autocomplete="email"/>
+        <label for="email">Email address</label>
+      </div>
+
+      <div class="field">
+        <input type="password" id="password" placeholder=" " required minlength="6" autocomplete="new-password"/>
+        <label for="password">Password</label>
+        <span class="eye" id="eyePw">👁️</span>
+      </div>
+
+      <div class="field">
+        <input type="password" id="confirmPassword" placeholder=" " required autocomplete="new-password"/>
+        <label for="confirmPassword">Confirm Password</label>
+        <span class="eye" id="eyeConfirm">👁️</span>
+      </div>
+
+      <div id="passwordMatch"></div>
+
+      <button type="submit" id="submitBtn" disabled>Create Account</button>
+    </form>
+
+    <div class="or">or continue with</div>
+
+    <div class="social">
+      <button>Google</button>
+      <button>GitHub</button>
+    </div>
+
+    <p class="bottom">
+      Already have an account? <a href="login.html">Sign in</a>
+    </p>
+  </div>
+
+  <script>
+    // Password visibility toggles
+    const eyePw = document.getElementById('eyePw');
+    const eyeConfirm = document.getElementById('eyeConfirm');
+    const pw = document.getElementById('password');
+    const confirmPw = document.getElementById('confirmPassword');
+    const matchMsg = document.getElementById('passwordMatch');
+    const submitBtn = document.getElementById('submitBtn');
+
+    eyePw.onclick = () => {
+      pw.type = pw.type === 'password' ? 'text' : 'password';
+      eyePw.textContent = pw.type === 'password' ? '👁️' : '🙈';
+    };
+
+    eyeConfirm.onclick = () => {
+      confirmPw.type = confirmPw.type === 'password' ? 'text' : 'password';
+      eyeConfirm.textContent = confirmPw.type === 'password' ? '👁️' : '🙈';
+    };
+
+    // Real-time password match check
+    const checkPasswords = () => {
+      const p1 = pw.value;
+      const p2 = confirmPw.value;
+
+      if (p1 === '' || p2 === '') {
+        matchMsg.className = '';
+        matchMsg.style.display = 'none';
+        submitBtn.disabled = true;
+        return;
+      }
+
+      if (p1 === p2) {
+        matchMsg.textContent = 'Passwords match ✓';
+        matchMsg.className = 'match-good';
+        matchMsg.style.display = 'block';
+        submitBtn.disabled = false;
+      } else {
+        matchMsg.textContent = 'Passwords do not match';
+        matchMsg.className = 'match-bad';
+        matchMsg.style.display = 'block';
+        submitBtn.disabled = true;
+      }
+    };
+
+    pw.addEventListener('input', checkPasswords);
+    confirmPw.addEventListener('input', checkPasswords);
+
+    // Form submit (replace alert with real API call later)
+    document.getElementById('registerForm').addEventListener('submit', e => {
+      e.preventDefault();
+
+      const username = document.getElementById('username').value.trim();
+      const email    = document.getElementById('email').value.trim();
+      const password = pw.value;
+
+      if (!username || !email || !password) {
+        alert('Please fill all fields');
+        return;
+      }
+
+      // Here you would send to FastAPI
+      // Example:
+      // fetch('http://localhost:8000/register', {
+      //   method: 'POST',
+      //   headers: { 'Content-Type': 'application/json' },
+      //   body: JSON.stringify({ username, email, password })
+      // })
+      // .then(res => res.json())
+      // .then(data => {
+      //   if (data.success) window.location.href = 'dashboard.html';
+      //   else alert(data.message || 'Registration failed');
+      // })
+      // .catch(() => alert('Something went wrong'));
+
+      alert('Registration successful! (demo mode)\nRedirecting to dashboard...');
+      setTimeout(() => {
+        window.location.href = 'dashboard.html';
+      }, 1200);
+    });
+  </script>
+</body>
+</html>

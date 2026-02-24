@@ -1,35 +1,320 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" class="dark">
 <head>
-<title>Login</title>
-<style>
-body{text-align:center;font-family:Arial;background:#f4f4f4}
-input{padding:10px;margin:10px}
-button{padding:10px 20px}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SecureShort — Login</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --card-bg: rgba(25, 25, 35, 0.5);
+      --text: #e0e0ff;
+      --text-muted: #a0a0cc;
+      --accent: #00d4ff;
+      --accent-dark: #0099cc;
+      --border: rgba(255,255,255,0.09);
+      --glow: rgba(0, 212, 255, 0.25);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: linear-gradient(135deg, #0a0a0a 0%, #0f0f1a 100%);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    .login-container {
+      width: 100%;
+      max-width: 420px;
+      position: relative;
+    }
+
+    .glass-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--border);
+      border-radius: 1.5rem;
+      padding: 2.8rem 2.2rem;
+      box-shadow: 0 25px 70px rgba(0,0,0,0.7);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .glass-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at 30% 20%, rgba(0,212,255,0.12), transparent 40%);
+      pointer-events: none;
+    }
+
+    .logo {
+      text-align: center;
+      font-size: 2.2rem;
+      font-weight: 700;
+      background: linear-gradient(90deg, #00d4ff, #7c3aed);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.8rem;
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 1rem;
+      margin-bottom: 2.2rem;
+    }
+
+    .form-group {
+      position: relative;
+      margin-bottom: 1.8rem;
+    }
+
+    input {
+      width: 100%;
+      padding: 1.1rem 1rem 1.1rem 1rem;
+      background: rgba(20,20,30,0.6);
+      border: 1px solid var(--border);
+      border-radius: 0.9rem;
+      color: white;
+      font-size: 1rem;
+      outline: none;
+      transition: all 0.3s;
+    }
+
+    input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--glow);
+    }
+
+    label {
+      position: absolute;
+      top: 50%;
+      left: 1rem;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      pointer-events: none;
+      transition: all 0.3s;
+    }
+
+    input:focus + label,
+    input:not(:placeholder-shown) + label {
+      top: -0.6rem;
+      left: 0.9rem;
+      font-size: 0.82rem;
+      background: var(--bg);
+      padding: 0 0.4rem;
+      color: var(--accent);
+    }
+
+    .password-toggle {
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      color: var(--text-muted);
+      font-size: 1.1rem;
+    }
+
+    .options {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 1.2rem 0 1.8rem;
+      font-size: 0.92rem;
+    }
+
+    .checkbox-label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--text-muted);
+    }
+
+    .forgot {
+      color: var(--accent);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .forgot:hover {
+      color: #00f0ff;
+    }
+
+    button[type="submit"] {
+      width: 100%;
+      padding: 1.1rem;
+      background: linear-gradient(90deg, var(--accent), #7c3aed);
+      color: white;
+      border: none;
+      border-radius: 0.9rem;
+      font-size: 1.05rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 10px 30px var(--glow);
+    }
+
+    button[type="submit"]:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 40px rgba(0,212,255,0.4);
+    }
+
+    .divider {
+      text-align: center;
+      margin: 1.8rem 0;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .social-buttons {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .social-btn {
+      flex: 1;
+      padding: 0.9rem;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      border-radius: 0.9rem;
+      color: var(--text);
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-align: center;
+    }
+
+    .social-btn:hover {
+      background: rgba(255,255,255,0.1);
+      border-color: var(--accent);
+    }
+
+    .signup-link {
+      text-align: center;
+      margin-top: 1.8rem;
+      color: var(--text-muted);
+    }
+
+    .signup-link a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .signup-link a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 480px) {
+      .glass-card {
+        padding: 2rem 1.5rem;
+      }
+    }
+  </style>
 </head>
 <body>
 
-<h2>Login</h2>
+  <div class="login-container">
+    <div class="glass-card">
+      <div class="logo">SecureShort</div>
+      <h2>Welcome Back</h2>
+      <p class="subtitle">Sign in to manage your secure short links</p>
 
-<input id="email" placeholder="Email"><br>
-<input id="pass" type="password" placeholder="Password"><br>
+      <form id="loginForm">
+        <div class="form-group">
+          <input type="email" id="email" placeholder=" " required autocomplete="email"/>
+          <label for="email">Email address</label>
+        </div>
 
-<button onclick="login()">Login</button>
+        <div class="form-group">
+          <input type="password" id="password" placeholder=" " required autocomplete="current-password"/>
+          <label for="password">Password</label>
+          <span class="password-toggle" id="togglePassword">👁️</span>
+        </div>
 
-<script>
-function login(){
-let email=document.getElementById("email").value
-let pass=document.getElementById("pass").value
+        <div class="options">
+          <label class="checkbox-label">
+            <input type="checkbox" id="remember"/>
+            Remember me
+          </label>
+          <a href="#" class="forgot">Forgot password?</a>
+        </div>
 
-if(email && pass){
-localStorage.setItem("token","demo-token")
-location.href="dashboard.html"
-}else{
-alert("Enter details")
-}
-}
-</script>
+        <button type="submit">Sign In</button>
+      </form>
+
+      <div class="divider">or continue with</div>
+
+      <div class="social-buttons">
+        <button class="social-btn">Google</button>
+        <button class="social-btn">GitHub</button>
+      </div>
+
+      <p class="signup-link">
+        Don't have an account? <a href="register.html">Sign up</a>
+      </p>
+    </div>
+  </div>
+
+  <script>
+    // Password visibility toggle
+    const togglePassword = document.getElementById('togglePassword');
+    const passwordInput = document.getElementById('password');
+
+    togglePassword.addEventListener('click', () => {
+      const type = passwordInput.type === 'password' ? 'text' : 'password';
+      passwordInput.type = type;
+      togglePassword.textContent = type === 'password' ? '👁️' : '🙈';
+    });
+
+    // Fake form submit (replace with real fetch to FastAPI /login)
+    document.getElementById('loginForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+
+      if (email && password) {
+        alert('Logging in... (connect to your FastAPI backend here)');
+        // Example real code:
+        // fetch('http://localhost:8000/login', {
+        //   method: 'POST',
+        //   headers: { 'Content-Type': 'application/json' },
+        //   body: JSON.stringify({ email, password })
+        // })
+        // .then(res => res.json())
+        // .then(data => { if (data.token) window.location.href = '/dashboard.html'; })
+        // .catch(err => alert('Login failed'));
+      } else {
+        alert('Please fill in all fields');
+      }
+    });
+  </script>
 
 </body>
 </html>

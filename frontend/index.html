@@ -1,42 +1,285 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" class="dark">
 <head>
-<title>Shorten URL</title>
-<style>
-body{text-align:center;font-family:Arial;background:#eef}
-input{padding:10px;width:300px}
-button{padding:10px 20px}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SecureShort — Ultra-Secure URL Shortener</title>
+  <meta name="description" content="Shorten links securely with rate limiting, malware protection, and fast redirection."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --card-bg: rgba(30, 30, 40, 0.45);
+      --text: #e0e0ff;
+      --text-muted: #a0a0cc;
+      --accent: #00d4ff;
+      --accent-dark: #0099cc;
+      --border: rgba(255,255,255,0.08);
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: linear-gradient(135deg, #0a0a0a 0%, #0f0f1a 100%);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+    header {
+      padding: 2rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(12px);
+      background: rgba(10,10,10,0.6);
+      border-bottom: 1px solid var(--border);
+    }
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 700;
+      background: linear-gradient(90deg, #00d4ff, #7c3aed);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .nav-links a {
+      color: var(--text-muted);
+      margin-left: 2rem;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+    .nav-links a:hover {
+      color: var(--accent);
+    }
+    .hero {
+      padding: 8rem 0 6rem;
+      text-align: center;
+    }
+    .hero h1 {
+      font-size: clamp(2.8rem, 8vw, 5.2rem);
+      font-weight: 700;
+      margin-bottom: 1.2rem;
+      line-height: 1.1;
+      background: linear-gradient(90deg, #e0e0ff, #a0a0ff, #00d4ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero p {
+      font-size: 1.3rem;
+      max-width: 680px;
+      margin: 0 auto 2.5rem;
+      color: var(--text-muted);
+    }
+    .shorten-form {
+      max-width: 680px;
+      margin: 0 auto;
+      position: relative;
+    }
+    .shorten-form .glass-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--border);
+      border-radius: 1.2rem;
+      padding: 1.8rem;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    input[type="url"] {
+      flex: 1;
+      min-width: 280px;
+      padding: 1rem 1.4rem;
+      border: 1px solid var(--border);
+      border-radius: 0.8rem;
+      background: rgba(20,20,30,0.6);
+      color: white;
+      font-size: 1.1rem;
+      outline: none;
+      transition: all 0.3s;
+    }
+    input[type="url"]::placeholder {
+      color: #707090;
+    }
+    input[type="url"]:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(0,212,255,0.15);
+    }
+    button {
+      padding: 1rem 2.2rem;
+      background: linear-gradient(90deg, var(--accent), #7c3aed);
+      color: white;
+      border: none;
+      border-radius: 0.8rem;
+      font-weight: 600;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 8px 25px rgba(0,212,255,0.25);
+    }
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 35px rgba(0,212,255,0.4);
+    }
+    .features {
+      padding: 6rem 0;
+      background: rgba(15,15,25,0.4);
+    }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+    }
+    .feature-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border);
+      border-radius: 1.2rem;
+      padding: 2.2rem;
+      transition: transform 0.4s, box-shadow 0.4s;
+    }
+    .feature-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 25px 60px rgba(0,0,0,0.5);
+    }
+    .feature-icon {
+      font-size: 2.8rem;
+      margin-bottom: 1.2rem;
+      color: var(--accent);
+    }
+    .feature-card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    .result {
+      margin-top: 2rem;
+      padding: 1.2rem;
+      background: rgba(0,212,255,0.08);
+      border: 1px solid rgba(0,212,255,0.2);
+      border-radius: 0.8rem;
+      word-break: break-all;
+      display: none;
+    }
+    footer {
+      text-align: center;
+      padding: 3rem 0;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border);
+    }
+    @media (max-width: 640px) {
+      .shorten-form .glass-card {
+        flex-direction: column;
+      }
+      button {
+        width: 100%;
+      }
+    }
+  </style>
 </head>
 <body>
 
-<script>
-if(!localStorage.getItem("token")){
-location.href="login.html"
-}
-</script>
+  <header>
+    <div class="container">
+      <nav>
+        <div class="logo">SecureShort</div>
+        <div class="nav-links">
+          <a href="features.html">Features</a>          <!-- ← FIXED HERE -->
+          <a href="login.html">Login</a>
+          <a href="register.html">Sign Up</a>
+        </div>
+      </nav>
+    </div>
+  </header>
 
-<h2>URL Shortener</h2>
+  <section class="hero">
+    <div class="container">
+      <h1>Shorten Links Securely & Instantly</h1>
+      <p>Protect against phishing & malware • Built-in rate limiting • Lightning-fast redirects • Full analytics</p>
 
-<input id="url" placeholder="Enter URL"><br><br>
+      <div class="shorten-form">
+        <div class="glass-card">
+          <input type="url" id="longUrl" placeholder="Paste your long URL here..." required/>
+          <button id="shortenBtn">Shorten Now</button>
+        </div>
 
-<button onclick="shorten()">Shorten</button>
+        <div class="result" id="resultBox">
+          <strong>Your short link:</strong> <span id="shortLink"></span>
+          <button onclick="copyToClipboard()" style="margin-left:1rem; padding:0.5rem 1rem; font-size:0.95rem;">Copy</button>
+        </div>
+      </div>
+    </div>
+  </section>
 
-<p id="out"></p>
+  <section class="features" id="features">
+    <div class="container">
+      <h2 style="text-align:center; font-size:2.8rem; margin-bottom:4rem;">Why Choose SecureShort?</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🛡️</div>
+          <h3>Advanced Security</h3>
+          <p>Malware & phishing detection, SSRF prevention, secure validation before every shorten.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">⚡</div>
+          <h3>Rate Limiting</h3>
+          <p>Prevents abuse & spam — fair usage enforced with Redis-powered limits per IP/user.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📊</div>
+          <h3>Rich Analytics</h3>
+          <p>Track clicks, geography, devices — admin dashboard for deep insights.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-<script>
-function shorten(){
-let url=document.getElementById("url").value
+  <footer>
+    <div class="container">
+      <p>© 2026 SecureShort — Built with security & performance in mind.</p>
+    </div>
+  </footer>
 
-if(!url){
-alert("Enter URL")
-return
-}
+  <script>
+    const shortenBtn = document.getElementById('shortenBtn');
+    const longUrlInput = document.getElementById('longUrl');
+    const resultBox = document.getElementById('resultBox');
+    const shortLinkSpan = document.getElementById('shortLink');
 
-let fake="http://short.ly/"+Math.random().toString(36).substring(7)
-document.getElementById("out").innerHTML=fake
-}
-</script>
+    shortenBtn.addEventListener('click', async () => {
+      const url = longUrlInput.value.trim();
+      if (!url || !url.startsWith('http')) {
+        alert('Please enter a valid URL');
+        return;
+      }
+      // Fake response — replace with real fetch to your FastAPI later
+      const fakeShort = 'https://secshort.in/' + Math.random().toString(36).substring(2,8);
+      shortLinkSpan.textContent = fakeShort;
+      resultBox.style.display = 'block';
+      resultBox.scrollIntoView({ behavior: 'smooth' });
+    });
+
+    function copyToClipboard() {
+      navigator.clipboard.writeText(shortLinkSpan.textContent);
+      alert('Short link copied!');
+    }
+  </script>
 
 </body>
 </html>

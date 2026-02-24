@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SecureShort — Features</title>
+  <meta name="description" content="Discover what SecureShort can do: secure URL shortening, rate limiting, click analytics, custom aliases, expiry control and more."/>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --card-bg: rgba(30, 30, 40, 0.5);
+      --text: #e0e0ff;
+      --muted: #a0a0cc;
+      --accent: #00d4ff;
+      --accent2: #7c3aed;
+      --border: rgba(255,255,255,0.08);
+      --glow: rgba(0,212,255,0.20);
+    }
+
+    * { margin:0; padding:0; box-sizing:border-box; }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: linear-gradient(135deg, #0a0a0a 0%, #0f0f1a 100%);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.7;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    header {
+      padding: 2.5rem 0 1.5rem;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(12px);
+      background: rgba(10,10,10,0.75);
+      border-bottom: 1px solid var(--border);
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.9rem;
+      font-weight: 700;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      margin-left: 2rem;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+    }
+
+    main {
+      padding: 5rem 0 7rem;
+    }
+
+    h1 {
+      font-size: 3.4rem;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 1.2rem;
+      background: linear-gradient(90deg, #e0e0ff, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .tagline {
+      text-align: center;
+      font-size: 1.4rem;
+      color: var(--muted);
+      margin-bottom: 4rem;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 2rem;
+    }
+
+    .feature-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border);
+      border-radius: 1.4rem;
+      padding: 2.2rem;
+      transition: transform 0.4s, box-shadow 0.4s;
+      box-shadow: 0 12px 32px rgba(0,0,0,0.5);
+    }
+
+    .feature-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 50px var(--glow);
+    }
+
+    .feature-icon {
+      font-size: 3rem;
+      margin-bottom: 1.2rem;
+      color: var(--accent);
+    }
+
+    .feature-card h3 {
+      font-size: 1.6rem;
+      margin-bottom: 1rem;
+      color: var(--text);
+    }
+
+    .feature-card p {
+      color: var(--muted);
+      font-size: 1.05rem;
+    }
+
+    footer {
+      text-align: center;
+      padding: 4rem 0 2rem;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 768px) {
+      h1 { font-size: 2.6rem; }
+      .tagline { font-size: 1.2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="container">
+      <nav>
+        <div class="logo">SecureShort</div>
+        <div class="nav-links">
+          <a href="index.html">Home</a>
+          <a href="features.html">Features</a>
+          <a href="login.html">Login</a>
+          <a href="register.html">Sign Up</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <h1>Powerful Features</h1>
+    <p class="tagline">
+      SecureShort is built for fast, safe and smart link management — with strong protection against abuse and full visibility into every click.
+    </p>
+
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🔗</div>
+        <h3>Instant URL Shortening</h3>
+        <p>Turn any long link into a short, clean URL in seconds. Works instantly — even without an account.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🛡️</div>
+        <h3>Advanced Security Protection</h3>
+        <p>Every submitted URL is automatically checked for phishing, malware domains, and dangerous redirects (SSRF prevention).</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🚦</div>
+        <h3>Built-in Rate Limiting</h3>
+        <p>Prevents spam and abuse. Limits how many links anyone (IP or user) can create in a short time window.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">📈</div>
+        <h3>Click Analytics</h3>
+        <p>See exactly how many times each link was clicked, when, from which country/device/browser — private dashboard for logged-in users.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">✏️</div>
+        <h3>Custom Short Links</h3>
+        <p>Choose your own short code (alias) instead of random characters — only available after signing in.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">⏳</div>
+        <h3>Link Expiration</h3>
+        <p>Set an automatic expiry date/time — perfect for temporary promotions, event links or one-time shares.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <h3>Lightning-Fast Redirects</h3>
+        <p>Ultra-low latency thanks to Redis caching — most redirects happen in under 50 ms.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🔒</div>
+        <h3>User Dashboard & Control</h3>
+        <p>Logged-in users can see all their links, edit settings, view detailed stats, and disable/delete links anytime.</p>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>© 2026 SecureShort — Short links. Strong security. Real insights.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
