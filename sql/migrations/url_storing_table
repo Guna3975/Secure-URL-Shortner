@@ -15,3 +15,6 @@ CREATE TABLE user_urls (
 
     CONSTRAINT uq_short_code UNIQUE (short_code)
 );
+CREATE INDEX idx_user_urls_short_code ON user_urls(short_code);
+
+CREATE INDEX idx_user_urls_user_id ON user_urls(user_id);
