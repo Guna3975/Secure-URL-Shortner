@@ -56,8 +56,6 @@ pip install -r requirements.txt
 ```
 4. Setup database
 ``` bash
-psql -U postgres -f sql/schema.sql
-psql -U postgres -f sql/seed.sql
 ```
 5. Start Redis
 ``` bash
