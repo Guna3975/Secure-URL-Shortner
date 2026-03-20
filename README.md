@@ -22,19 +22,75 @@
 ``` 
 secure-url-shortener
 │
-├── app/                # Backend (FastAPI application)
-│   ├── core/           # Security, hashing, JWT, config
-│   ├── database/       # DB connection, models, queries
-│   ├── routes/         # API endpoints
-│   ├── services/       # Business logic layer
-│   ├── middleware/     # Logging & rate limiting
-│   └── main.py         # FastAPI entry point
+├── app/                     # Main backend application
+│   |
+│   ├── config.py            # Global configuration settings
+│   |
+│   ├── core/                # Core security and utility modules
+│   │   ├── config.py        # Core configuration values
+│   │   ├── exceptions.py    # Custom exception handling
+│   │   ├── generator.py     # Short URL code generator
+│   │   ├── hashing.py       # Password hashing utilities
+│   │   └── jwt_handler.py   # JWT token generation & validation
+│   |
+│   ├── database/            # Database interaction layer
+│   │   ├── connection.py    # Oracle DB connection using SQL*Plus
+│   │   ├── models.py        # Data models
+│   │   └── queries.py       # SQL queries used by services
+│   |
+│   ├── middleware/          # Request middleware components
+│   │   ├── logging.py       # Request logging middleware
+│   │   └── rate_limit.py    # API rate limiting using Redis
+│   |
+│   ├── routes/              # API endpoints
+│   │   ├── admin_routes.py  # Admin management APIs
+│   │   ├── auth_routes.py   # Login & registration endpoints
+│   │   ├── redirect_routes.py # URL redirection endpoint
+│   │   └── url_routes.py    # URL shortening APIs
+│   |
+│   ├── schemas/             # Request & response validation schemas
+│   │   ├── admin_schema.py
+│   │   ├── auth_schema.py
+│   │   └── url_schema.py
+│   |
+│   ├── services/            # Business logic layer
+│   │   ├── analytics_service.py   # Click tracking & statistics
+│   │   ├── auth_service.py        # Authentication logic
+│   │   ├── limiter_service.py     # Rate limit logic
+│   │   ├── security_service.py    # URL safety checking
+│   │   ├── url_service.py         # URL shortening & retrieval
+│   │   └── validator_service.py   # URL validation utilities
+│   |
+│   ├── dependencies.py      # FastAPI dependency injection
+│   └── main.py              # FastAPI application entry point
+│  
+├── frontend/                # Static frontend pages
+│   ├── index.html
+│   ├── start.html
+│   ├── login.html
+│   ├── register.html
+│   ├── dashboard.html
+│   └── features.html
 │
-├── frontend/           # Static UI pages
-├── sql/                # DB schema & migrations
-├── redis/              # Redis configuration
-├── tests/              # Unit tests
-└── run.py              # App runner
+├── redis/                   # Redis configuration for caching and rate limiting
+│   └── redis_config.md
+│
+├── sql/                     # Database schema and migrations
+│   ├── schema.sql           # Initial database schema
+│   ├── seed.sql             # Sample data
+│   └── migrations/          # Additional migration scripts
+│       ├── 001_create_users_and_urls.sql
+│       ├── click_table_log.sql
+│       └── url_storing_table.sql
+│
+├── tests/                   # Unit and integration tests
+│   ├── test_auth.py
+│   ├── test_limits.py
+│   └── test_urls.py
+│
+├── requirements.txt         # Python dependencies
+├── run.py                   # Application runner script
+└── README.md                # Project documentation
 ```
 ## Getting Started
 1. Clone the repository
@@ -56,6 +112,10 @@ pip install -r requirements.txt
 ```
 4. Setup database
 ``` bash
+sqlplus username/password
+
+@sql/schema.sql
+@sql/seed.sql
 ```
 5. Start Redis
 ``` bash
