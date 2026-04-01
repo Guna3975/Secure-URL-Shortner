@@ -2,1064 +2,400 @@
 <html lang="en" class="dark">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>SecureShort — Dashboard</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
   <style>
     :root {
-      /* Color Palette */
-      --bg: #050508;
-      --sidebar: rgba(10, 10, 15, 0.7);
-      --card: rgba(20, 20, 30, 0.5);
-      --card-hover: rgba(30, 30, 45, 0.6);
-      --accent: #00f0ff;
-      --accent2: #8a2be2;
-      --accent-gradient: linear-gradient(135deg, var(--accent), var(--accent2));
-      --text-main: #f8f8ff;
-      --text-muted: #94a3b8;
-      --border: rgba(255, 255, 255, 0.08);
-      --glow-accent: rgba(0, 240, 255, 0.4);
-      --glow-accent2: rgba(138, 43, 226, 0.4);
-      
-      /* Typography */
-      --font-family: 'Inter', sans-serif;
-      
-      /* Transitions */
-      --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-      --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      --bg: #0a0a0f;
+      --sidebar: rgba(15,15,25,0.85);
+      --card: rgba(20,20,35,0.6);
+      --accent: #00d4ff;
+      --accent2: #7c3aed;
+      --text: #e0e0ff;
+      --muted: #a0a0cc;
+      --border: rgba(255,255,255,0.08);
+      --glow: rgba(0,212,255,0.25);
     }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
+    * { margin:0; padding:0; box-sizing:border-box; }
     body {
-      font-family: var(--font-family);
+      font-family: 'Inter', sans-serif;
       background: var(--bg);
-      color: var(--text-main);
-      min-height: 100vh;
-      display: flex;
-      overflow-x: hidden;
-      background-image: 
-        radial-gradient(circle at 15% 50%, rgba(138, 43, 226, 0.08) 0%, transparent 40%),
-        radial-gradient(circle at 85% 30%, rgba(0, 240, 255, 0.08) 0%, transparent 40%);
+      color: var(--text);
+      min-height:100vh;
+      display:flex;
     }
-
-    /* ---- Sidebar ---- */
     aside {
-      width: 280px;
-      background: var(--sidebar);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border-right: 1px solid var(--border);
-      padding: 2.5rem 1.5rem;
-      height: 100vh;
-      position: fixed;
-      overflow-y: auto;
-      transition: transform var(--transition-normal);
-      z-index: 100;
-      display: flex;
-      flex-direction: column;
+      width:280px;
+      background:var(--sidebar);
+      backdrop-filter:blur(16px);
+      border-right:1px solid var(--border);
+      padding:2rem 1.5rem;
+      height:100vh;
+      position:fixed;
+      overflow-y:auto;
     }
-
-    .logo-container {
-      margin-bottom: 3.5rem;
-      padding: 0 0.5rem;
-    }
-
     .logo {
-      font-size: 2.2rem;
-      font-weight: 800;
-      letter-spacing: -0.5px;
-      background: var(--accent-gradient);
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      display: inline-block;
-      position: relative;
+      font-size:2rem;
+      font-weight:700;
+      background:linear-gradient(90deg,var(--accent),var(--accent2));
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      margin-bottom:3rem;
     }
-
-    .logo::after {
-      content: '';
-      position: absolute;
-      bottom: -4px;
-      left: 0;
-      width: 40%;
-      height: 3px;
-      background: var(--accent);
-      border-radius: 2px;
-    }
-
-    nav {
-      flex: 1;
-    }
-
-    nav ul {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-
+    nav ul { list-style:none; }
+    nav li { margin-bottom:1.2rem; }
     nav a {
-      display: flex;
-      align-items: center;
-      gap: 1.2rem;
-      color: var(--text-muted);
-      text-decoration: none;
-      font-weight: 500;
-      padding: 1rem 1.2rem;
-      border-radius: 0.8rem;
-      transition: all var(--transition-fast);
-      cursor: pointer;
-      position: relative;
-      overflow: hidden;
+      display:flex;
+      align-items:center;
+      gap:1rem;
+      color:var(--muted);
+      text-decoration:none;
+      font-weight:500;
+      padding:0.9rem 1.2rem;
+      border-radius:0.8rem;
+      transition:all 0.3s;
+      cursor:pointer;
     }
-
-    nav a::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 0;
-      height: 100%;
-      width: 0;
-      background: rgba(255, 255, 255, 0.03);
-      transition: width var(--transition-fast);
-      z-index: 0;
+    nav a:hover, nav a.active {
+      background:rgba(255,255,255,0.08);
+      color:var(--accent);
     }
-
-    nav a:hover::before {
-      width: 100%;
-    }
-
-    nav a:hover {
-      color: var(--text-main);
-      transform: translateX(4px);
-    }
-
-    nav a.active {
-      background: rgba(255, 255, 255, 0.06);
-      color: #fff;
-      box-shadow: inset 3px 0 0 var(--accent);
-    }
-
-    nav .icon {
-      font-size: 1.4rem;
-      z-index: 1;
-      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
-    }
-    
-    nav .link-text {
-      z-index: 1;
-    }
-
-    .nav-bottom {
-      margin-top: auto;
-      padding-top: 2rem;
-      border-top: 1px solid var(--border);
-    }
-
-    /* ---- Main Content ---- */
-    main {
-      margin-left: 280px;
-      flex: 1;
-      padding: 2rem 3rem 4rem 3rem;
-      max-width: 1600px;
-    }
-
+    nav .icon { font-size:1.3rem; }
+    main { margin-left:280px; flex:1; padding:2.5rem; }
     header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 3.5rem;
-      flex-wrap: wrap;
-      gap: 1.5rem;
-      padding-bottom: 1.5rem;
-      border-bottom: 1px solid rgba(255,255,255,0.05);
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:2.5rem;
+      flex-wrap:wrap;
+      gap:1rem;
     }
-
-    h1 {
-      font-size: 2.2rem;
-      font-weight: 700;
-      letter-spacing: -0.5px;
+    h1 { font-size:2.2rem; font-weight:700; }
+    .section { display:none; }
+    .section.active { display:block; }
+    .quick-form {
+      background:var(--card);
+      backdrop-filter:blur(20px);
+      border:1px solid var(--border);
+      border-radius:1.2rem;
+      padding:2rem;
+      margin-bottom:3rem;
     }
-
-    .user-profile {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      background: var(--card);
-      padding: 0.5rem 1rem 0.5rem 0.5rem;
-      border-radius: 2rem;
-      border: 1px solid var(--border);
-      backdrop-filter: blur(10px);
-      transition: border-color var(--transition-fast);
+    .quick-form form { display:flex; gap:1rem; flex-wrap:wrap; }
+    .quick-form input {
+      flex:1;
+      min-width:300px;
+      padding:1.1rem 1.4rem;
+      background:rgba(15,15,30,0.7);
+      border:1px solid var(--border);
+      border-radius:0.9rem;
+      color:white;
+      font-size:1.05rem;
+      outline:none;
     }
-
-    .user-profile:hover {
-      border-color: rgba(255,255,255,0.2);
+    .quick-form input:focus {
+      border-color:var(--accent);
+      box-shadow:0 0 0 3px var(--glow);
     }
-
-    .avatar {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: var(--accent-gradient);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 1.2rem;
-      color: white;
-      box-shadow: 0 0 15px var(--glow-accent2);
+    .quick-form button {
+      padding:1.1rem 2.5rem;
+      background:linear-gradient(90deg,var(--accent),var(--accent2));
+      border:none;
+      border-radius:0.9rem;
+      color:white;
+      font-weight:600;
+      font-size:1.05rem;
+      cursor:pointer;
     }
-
-    .greeting {
-      font-size: 0.95rem;
-      color: var(--text-muted);
-    }
-
-    .greeting strong {
-      color: var(--text-main);
-      font-weight: 600;
-      margin-left: 0.3rem;
-    }
-
-    /* ---- Sections & Animation ---- */
-    .section {
+    .result {
+      margin-top: 1.5rem;
+      padding: 1rem;
+      background: rgba(0,212,255,0.1);
+      border: 1px solid rgba(0,212,255,0.3);
+      border-radius: 0.8rem;
       display: none;
-      animation: fadeIn var(--transition-slow);
+    }
+    .link-card {
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:1rem;
+      padding:1.5rem;
+      margin-bottom:1rem;
+    }
+    .short-link {
+      color:var(--accent);
+      font-weight:600;
+      font-size:1.2rem;
+      word-break:break-all;
     }
 
-    .section.active {
-      display: block;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(15px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* ---- Stats Grid ---- */
-    .stats {
+    /* ── Analytics ── */
+    .stat-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 1.5rem;
-      margin-bottom: 3.5rem;
+      margin-bottom: 2.5rem;
     }
-
     .stat-card {
       background: var(--card);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
       border: 1px solid var(--border);
-      border-radius: 1.2rem;
-      padding: 2rem;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-      transition: all var(--transition-normal);
-      position: relative;
-      overflow: hidden;
+      padding: 1.8rem;
+      border-radius: 1rem;
+      text-align: center;
     }
-
-    .stat-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0; height: 100%;
-      background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, transparent 100%);
-      pointer-events: none;
-    }
-
-    .stat-card:hover {
-      transform: translateY(-5px);
-      background: var(--card-hover);
-      border-color: rgba(255,255,255,0.15);
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4), 0 0 20px rgba(138, 43, 226, 0.1);
-    }
-
     .stat-card h3 {
-      font-size: 1.05rem;
-      color: var(--text-muted);
-      margin-bottom: 0.8rem;
+      color: var(--muted);
+      font-size: 0.95rem;
       font-weight: 500;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
+      margin-bottom: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
     }
-
     .stat-value {
       font-size: 2.8rem;
-      font-weight: 800;
-      background: var(--accent-gradient);
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      line-height: 1.2;
-    }
-
-    /* ---- Quick Form ---- */
-    .quick-form {
-      background: var(--card);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid var(--border);
-      border-radius: 1.2rem;
-      padding: 2.2rem;
-      margin-bottom: 4rem;
-      position: relative;
-      overflow: hidden;
-    }
-    
-    .quick-form::before {
-      content: '';
-      position: absolute;
-      top: -50%; left: -50%; width: 200%; height: 200%;
-      background: radial-gradient(circle at center, rgba(0,240,255,0.05) 0%, transparent 50%);
-      pointer-events: none;
-    }
-
-    .quick-form h2 {
-      margin-bottom: 1.5rem;
-      font-size: 1.4rem;
-      font-weight: 600;
-    }
-
-    .quick-form form {
-      display: flex;
-      gap: 1.2rem;
-      flex-wrap: wrap;
-      position: relative;
-      z-index: 1;
-    }
-
-    .input-wrapper {
-      flex: 1;
-      min-width: 300px;
-      position: relative;
-    }
-
-    .quick-form input {
-      width: 100%;
-      padding: 1.2rem 1.5rem 1.2rem 3rem;
-      background: rgba(10, 10, 15, 0.6);
-      border: 1px solid var(--border);
-      border-radius: 1rem;
-      color: white;
-      font-size: 1.05rem;
-      outline: none;
-      transition: all var(--transition-fast);
-      box-shadow: inset 0 2px 10px rgba(0,0,0,0.2);
-    }
-
-    .input-icon {
-      position: absolute;
-      left: 1rem;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--text-muted);
-      font-size: 1.2rem;
-      pointer-events: none;
-    }
-
-    .quick-form input:focus {
-      border-color: var(--accent);
-      background: rgba(15, 15, 25, 0.8);
-      box-shadow: inset 0 2px 10px rgba(0,0,0,0.2), 0 0 0 3px rgba(0, 240, 255, 0.15);
-    }
-
-    .btn {
-      padding: 1.2rem 2.8rem;
-      border: none;
-      border-radius: 1rem;
-      font-weight: 600;
-      font-size: 1.05rem;
-      cursor: pointer;
-      transition: all var(--transition-fast);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.8rem;
-    }
-
-    .btn-primary {
-      background: var(--accent-gradient);
-      color: white;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(138, 43, 226, 0.4);
-      filter: brightness(1.1);
-    }
-    
-    .btn-primary:active {
-      transform: translateY(1px);
-    }
-
-    /* ---- Links Grid ---- */
-    .section-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 2rem;
-    }
-
-    .section-header h2 {
-      font-size: 1.6rem;
-      font-weight: 600;
-    }
-
-    .links-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
-      gap: 1.8rem;
-    }
-
-    .link-card {
-      background: var(--card);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid var(--border);
-      border-radius: 1.2rem;
-      padding: 1.8rem;
-      transition: all var(--transition-normal);
-      display: flex;
-      flex-direction: column;
-    }
-
-    .link-card:hover {
-      transform: translateY(-6px);
-      border-color: rgba(0, 240, 255, 0.3);
-      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(0, 240, 255, 0.1);
-    }
-
-    .link-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 1rem;
-    }
-
-    .short-link {
-      font-size: 1.3rem;
-      font-weight: 600;
+      font-weight: 700;
       color: var(--accent);
-      text-decoration: none;
-      word-break: break-all;
-      transition: color var(--transition-fast);
     }
-
-    .short-link:hover {
-      color: #fff;
-      text-decoration: underline;
-    }
-
-    .copy-btn {
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.1);
-      color: var(--text-muted);
-      border-radius: 0.5rem;
-      padding: 0.5rem;
-      cursor: pointer;
-      transition: all var(--transition-fast);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .copy-btn:hover {
-      background: rgba(255,255,255,0.15);
-      color: white;
-    }
-
-    .long-link {
-      font-size: 0.95rem;
-      color: var(--text-muted);
-      margin-bottom: 1.5rem;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-      line-height: 1.5;
-    }
-
-    .link-footer {
-      margin-top: auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding-top: 1.2rem;
-      border-top: 1px solid rgba(255,255,255,0.05);
-      font-size: 0.9rem;
-      color: var(--text-muted);
-    }
-
-    .clicks-badge {
-      background: rgba(138, 43, 226, 0.15);
-      color: #d8b4fe;
-      padding: 0.3rem 0.8rem;
-      border-radius: 2rem;
-      font-weight: 600;
-      border: 1px solid rgba(138, 43, 226, 0.3);
-    }
-
-    /* ---- Components & Utility ---- */
-    .trend-container {
-      background: var(--card);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid var(--border);
-      border-radius: 1.2rem;
-      padding: 2.5rem;
-      margin-top: 2rem;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-    }
-
-    .trend-container h3 {
+    .top-links-title {
       font-size: 1.3rem;
-      margin-bottom: 2rem;
       font-weight: 600;
+      margin-bottom: 1rem;
+      color: var(--text);
     }
-
-    .chart-placeholder {
-      height: 320px;
-      background: rgba(0, 0, 0, 0.2);
-      border-radius: 1rem;
-      border: 1px dashed rgba(255,255,255,0.1);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--text-muted);
-      position: relative;
-      overflow: hidden;
-    }
-    
-    .chart-placeholder::after {
-      content: '';
-      position: absolute;
-      bottom: 0; left: 0; right: 0; height: 50%;
-      background: linear-gradient(180deg, transparent 0%, rgba(0,240,255,0.05) 100%);
-    }
-
-    .settings-container {
+    .top-link-row {
       background: var(--card);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
       border: 1px solid var(--border);
-      border-radius: 1.2rem;
-      padding: 3rem;
-      max-width: 800px;
-    }
-
-    .settings-group {
-      margin-bottom: 3rem;
-      padding-bottom: 3rem;
-      border-bottom: 1px solid rgba(255,255,255,0.05);
-    }
-    
-    .settings-group:last-child {
-      border-bottom: none;
-      margin-bottom: 0;
-      padding-bottom: 0;
-    }
-
-    .settings-group h3 {
-      margin-bottom: 1.5rem;
-      font-size: 1.2rem;
-      color: var(--text-main);
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .info-row {
+      border-radius: 0.9rem;
+      padding: 1.2rem 1.5rem;
+      margin-bottom: 0.8rem;
       display: flex;
       justify-content: space-between;
-      padding: 1rem 0;
-      border-bottom: 1px dashed rgba(255,255,255,0.05);
-    }
-    
-    .info-row:last-child { border-bottom: none; }
-    
-    .info-label { color: var(--text-muted); }
-    .info-value { font-weight: 500; }
-
-    /* Toggle Switch */
-    .toggle-switch-wrapper {
-      display: flex;
       align-items: center;
-      justify-content: space-between;
-      padding: 1rem 0;
-      cursor: pointer;
+      gap: 1rem;
+      flex-wrap: wrap;
     }
-
-    .toggle-label {
-      font-weight: 500;
-    }
-    
-    .toggle-desc {
-      display: block;
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      margin-top: 0.2rem;
-    }
-
-    .toggle-switch {
-      position: relative;
-      display: inline-block;
-      width: 52px;
-      height: 28px;
-    }
-
-    .toggle-switch input {
-      opacity: 0;
-      width: 0;
-      height: 0;
-    }
-
-    .slider {
-      position: absolute;
-      cursor: pointer;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background-color: rgba(255,255,255,0.1);
-      transition: .3s;
-      border-radius: 34px;
-      border: 1px solid rgba(255,255,255,0.1);
-    }
-
-    .slider:before {
-      position: absolute;
-      content: "";
-      height: 20px;
-      width: 20px;
-      left: 3px;
-      bottom: 3px;
-      background-color: var(--text-muted);
-      transition: .3s cubic-bezier(0.4, 0, 0.2, 1);
-      border-radius: 50%;
-    }
-
-    input:checked + .slider {
-      background: var(--accent-gradient);
-      border-color: transparent;
-    }
-
-    input:checked + .slider:before {
-      transform: translateX(24px);
-      background-color: white;
-    }
-
-    #sidebarToggle {
-      display: none;
-    }
-
-    /* ---- Responsive Design ---- */
-    @media (max-width: 1024px) {
-      aside {
-        transform: translateX(-100%);
-        width: 280px;
-        box-shadow: 20px 0 50px rgba(0,0,0,0.5);
-      }
-      main {
-        margin-left: 0;
-        padding: 1.5rem 1.5rem 3rem 1.5rem;
-      }
-      #sidebarToggle {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: rgba(255,255,255,0.05);
-        border: 1px solid rgba(255,255,255,0.1);
-        color: var(--text-main);
-        font-size: 1.5rem;
-        cursor: pointer;
-        width: 44px;
-        height: 44px;
-        border-radius: 0.8rem;
-        transition: all var(--transition-fast);
-      }
-      #sidebarToggle:hover {
-        background: rgba(255,255,255,0.1);
-      }
-      aside.open {
-        transform: translateX(0);
-      }
-      
-      .links-grid {
-        grid-template-columns: 1fr;
-      }
-      
-      .quick-form input {
-        min-width: 100%;
-      }
-      
-      header {
-        margin-bottom: 2rem;
-      }
+    .top-link-row .short { color: var(--accent); font-weight: 600; }
+    .top-link-row .original { color: var(--muted); font-size: 0.9rem; word-break: break-all; flex: 1; }
+    .click-badge {
+      background: rgba(0,212,255,0.15);
+      color: var(--accent);
+      border: 1px solid rgba(0,212,255,0.3);
+      padding: 0.3rem 0.9rem;
+      border-radius: 2rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      white-space: nowrap;
     }
   </style>
 </head>
 <body>
-
-  <!-- Sidebar Navigation -->
-  <aside id="sidebar" role="navigation" aria-label="Main Navigation">
-    <div class="logo-container">
-      <div class="logo">SecureShort</div>
-    </div>
+  <aside id="sidebar">
+    <div class="logo">SecureShort</div>
     <nav>
       <ul>
-        <li>
-          <a href="#mylinks" class="nav-link active" data-target="mylinks">
-            <span class="icon" aria-hidden="true">🔗</span>
-            <span class="link-text">My Links</span>
-          </a>
-        </li>
-        <li>
-          <a href="#analytics" class="nav-link" data-target="analytics">
-            <span class="icon" aria-hidden="true">📊</span>
-            <span class="link-text">Analytics</span>
-          </a>
-        </li>
-        <li>
-          <a href="#settings" class="nav-link" data-target="settings">
-            <span class="icon" aria-hidden="true">⚙️</span>
-            <span class="link-text">Settings</span>
-          </a>
-        </li>
+        <li><a href="#mylinks" class="nav-link active"><span class="icon">🔗</span> My Links</a></li>
+        <li><a href="#analytics" class="nav-link"><span class="icon">📊</span> Analytics</a></li>
+        <li><a href="#settings" class="nav-link"><span class="icon">⚙️</span> Settings</a></li>
+        <li><a href="#" id="logoutBtn"><span class="icon">🚪</span> Logout</a></li>
       </ul>
     </nav>
-    <div class="nav-bottom">
-      <nav>
-        <ul>
-          <li>
-            <a href="#" id="logoutBtn" style="color: #ff6b6b">
-              <span class="icon" aria-hidden="true">🚪</span>
-              <span class="link-text">Logout</span>
-            </a>
-          </li>
-        </ul>
-      </nav>
-    </div>
   </aside>
 
   <main>
-    <!-- Header -->
     <header>
-      <div style="display: flex; align-items: center; gap: 1rem;">
-        <button id="sidebarToggle" aria-label="Toggle Navigation" aria-expanded="false">
-          ☰
-        </button>
-        <h1 id="pageTitle">Dashboard</h1>
-      </div>
-      
-      <div class="user-profile">
-        <div class="avatar" id="userAvatar">G</div>
-        <div class="greeting">Hello, <strong id="username">Gunaseelan</strong></div>
-      </div>
+      <h1 id="pageTitle">Dashboard</h1>
+      <div>Welcome, <span id="username">User</span></div>
     </header>
 
-    <!-- Section: My Links -->
-    <section id="mylinks" class="section active" aria-labelledby="pageTitle">
-      
-      <!-- Statistics -->
-      <div class="stats">
-        <div class="stat-card">
-          <h3>
-            <span aria-hidden="true">🎯</span> Total Links Created
-          </h3>
-          <div class="stat-value" id="totalLinks">24</div>
-        </div>
-        <div class="stat-card">
-          <h3>
-            <span aria-hidden="true">👆</span> Total Clicks
-          </h3>
-          <div class="stat-value" id="totalClicks">1,402</div>
-        </div>
-        <div class="stat-card">
-          <h3>
-            <span aria-hidden="true">📈</span> Avg. Clicks / Link
-          </h3>
-          <div class="stat-value" id="avgClicks">58.4</div>
-        </div>
+    <!-- Quick Shorten -->
+    <div class="quick-form">
+      <form id="quickShortenForm">
+        <input type="url" id="longUrl" placeholder="Paste long URL here to shorten..." required/>
+        <button type="submit">Shorten Now</button>
+      </form>
+      <div class="result" id="resultBox">
+        <strong>Your short link:</strong>
+        <span id="shortLink"></span>
+        <button onclick="copyToClipboard()" style="margin-left:1rem; padding:0.5rem 1rem;">Copy</button>
       </div>
+    </div>
 
-      <!-- Quick Shorten Action -->
-      <div class="quick-form">
-        <h2>Shorten a new URL</h2>
-        <form id="quickShortenForm">
-          <div class="input-wrapper">
-            <span class="input-icon" aria-hidden="true">🔗</span>
-            <input type="url" id="longUrl" placeholder="Paste a long secure URL to shorten it here..." required aria-label="Long URL Input" />
-          </div>
-          <button type="submit" class="btn btn-primary">
-            <span>Shorten Now</span>
-            <span aria-hidden="true">✨</span>
-          </button>
-        </form>
-      </div>
-
-      <!-- Recent Links Display -->
-      <div class="section-header">
-        <h2>Your Recent Links</h2>
-        <button class="btn" style="background: rgba(255,255,255,0.05); border: 1px solid var(--border); padding: 0.6rem 1rem; color: white;">View All</button>
-      </div>
-      
+    <!-- My Links -->
+    <div id="mylinks" class="section active">
+      <h2 style="margin-bottom:1.2rem;">Your Recent Links</h2>
       <div class="links-grid" id="linksContainer">
-        <!-- Javascript dynamic content placeholder -->
+        <p>Loading your links...</p>
       </div>
-    </section>
+    </div>
 
-    <!-- Section: Analytics -->
-    <section id="analytics" class="section" aria-labelledby="analyticsTitle">
-      <div class="section-header">
-        <h2 id="analyticsTitle">Analytics Overview</h2>
+    <!-- Analytics -->
+    <div id="analytics" class="section">
+      <h2 style="margin-bottom:1.5rem;">Analytics Overview</h2>
+      <div id="analyticsContent">
+        <p>Loading analytics...</p>
       </div>
-      
-      <div class="stats">
-        <div class="stat-card">
-          <h3><span aria-hidden="true">🌍</span> Top Country</h3>
-          <div class="stat-value">India</div>
-        </div>
-        <div class="stat-card">
-          <h3><span aria-hidden="true">📱</span> Top Device</h3>
-          <div class="stat-value">Mobile</div>
-        </div>
-        <div class="stat-card">
-          <h3><span aria-hidden="true">⏰</span> Peak Time</h3>
-          <div class="stat-value">8 PM</div>
-        </div>
-      </div>
-      
-      <div class="trend-container">
-        <h3>Click Trend (Last 30 days)</h3>
-        <div class="chart-placeholder">
-          <div><span style="font-size: 2rem; margin-bottom: 1rem; display: block; text-align: center;">📊</span> Interactive Chart Data Will Render Here</div>
-        </div>
-      </div>
-    </section>
+    </div>
 
-    <!-- Section: Settings -->
-    <section id="settings" class="section" aria-labelledby="settingsTitle">
-      <div class="section-header">
-        <h2 id="settingsTitle">Account Settings</h2>
-      </div>
-      
-      <div class="settings-container">
-        <!-- Account Information -->
-        <div class="settings-group">
-          <h3><span aria-hidden="true">👤</span> Profile Information</h3>
-          <div class="info-row">
-            <span class="info-label">Email Address</span>
-            <span class="info-value" id="userEmail">gunaseelan@example.com</span>
-          </div>
-          <div class="info-row">
-            <span class="info-label">Member Since</span>
-            <span class="info-value">February 2026</span>
-          </div>
-          <div class="info-row">
-            <span class="info-label">Subscription Plan</span>
-            <span class="info-value" style="color: var(--accent); font-weight: 600;">Free Tier</span>
-          </div>
-        </div>
-
-        <!-- Preferences -->
-        <div class="settings-group">
-          <h3><span aria-hidden="true">🎨</span> Preferences</h3>
-          
-          <label class="toggle-switch-wrapper">
-            <div>
-              <span class="toggle-label">Dark Interface</span>
-              <span class="toggle-desc">Use dark mode across the dashboard</span>
-            </div>
-            <div class="toggle-switch">
-              <input type="checkbox" id="themeToggle" checked aria-label="Toggle Dark Mode">
-              <span class="slider"></span>
-            </div>
-          </label>
-          
-          <label class="toggle-switch-wrapper">
-            <div>
-              <span class="toggle-label">Email Notifications</span>
-              <span class="toggle-desc">Receive updates for major click milestones</span>
-            </div>
-            <div class="toggle-switch">
-              <input type="checkbox" id="emailNotif" checked aria-label="Toggle Email Notifications">
-              <span class="slider"></span>
-            </div>
-          </label>
-        </div>
-
-        <!-- Data Management -->
-        <div class="settings-group" style="padding-bottom: 0;">
-          <h3><span aria-hidden="true">💾</span> Data Management</h3>
-          <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">Download all your shortened links and analytics data in CSV format.</p>
-          <button class="btn btn-primary" style="width: auto;">
-            <span aria-hidden="true">📥</span> Export My Data
-          </button>
-        </div>
-      </div>
-    </section>
+    <!-- Settings -->
+    <div id="settings" class="section">
+      <h2>Settings</h2>
+      <p style="color:var(--muted); margin-top:1rem;">Account settings coming soon...</p>
+    </div>
   </main>
 
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
+  // Token protection
+  if (!localStorage.getItem('token')) {
+    alert('Please login first');
+    window.location.href = 'login.html';
+  }
+
+  // Logout
+  document.getElementById('logoutBtn').addEventListener('click', () => {
+    localStorage.removeItem('token');
+    window.location.href = 'login.html';
+  });
+
+  // Navigation
+  document.querySelectorAll('.nav-link').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const targetId = link.getAttribute('href').substring(1);
       
-      // 1. Authentication Check
-      /*
-      const token = localStorage.getItem('token');
-      if (!token) {
-        alert('Session expired. Please login again.');
-        window.location.href = 'login.html';
-      }
-      */
+      document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+      link.classList.add('active');
 
-      // 2. DOM Elements
-      const navLinks = document.querySelectorAll('.nav-link');
-      const sections = document.querySelectorAll('.section');
-      const pageTitle = document.getElementById('pageTitle');
-      const sidebar = document.getElementById('sidebar');
-      const sidebarToggle = document.getElementById('sidebarToggle');
-      const linksContainer = document.getElementById('linksContainer');
+      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+      document.getElementById(targetId).classList.add('active');
 
-      // 3. Navigation Logic
-      navLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
-          e.preventDefault();
-          
-          // Get target section id from data attribute
-          const targetId = link.getAttribute('data-target');
-          if (!targetId) return;
+      document.getElementById('pageTitle').textContent = link.textContent.trim();
 
-          // Update active states on navigation links
-          navLinks.forEach(l => l.classList.remove('active'));
-          link.classList.add('active');
-
-          // Smoothly switch active sections
-          sections.forEach(s => s.classList.remove('active'));
-          const targetSection = document.getElementById(targetId);
-          
-          // Trigger reflow for animation to restart
-          void targetSection.offsetWidth;
-          targetSection.classList.add('active');
-
-          // Update Page Title
-          const linkText = link.querySelector('.link-text').textContent;
-          pageTitle.textContent = linkText;
-          
-          // Close sidebar on mobile after clicking
-          if (window.innerWidth <= 1024) {
-            sidebar.classList.remove('open');
-            sidebarToggle.setAttribute('aria-expanded', 'false');
-          }
-        });
-      });
-
-      // 4. Mobile Sidebar Toggle
-      sidebarToggle.addEventListener('click', () => {
-        const isOpen = sidebar.classList.toggle('open');
-        sidebarToggle.setAttribute('aria-expanded', isOpen.toString());
-      });
-
-      // 5. Dummy Data for Links Grid
-      const dummyLinks = [
-        { id: 'xk9A2f', original: 'https://docs.github.com/en/rest/reference/repos', clicks: 342, date: '2 hours ago' },
-        { id: 'b7YqLm', original: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', clicks: 890, date: '1 day ago' },
-        { id: 'm4Np9R', original: 'https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter', clicks: 45, date: '3 days ago' },
-        { id: 'r2Zx1C', original: 'https://stackoverflow.com/questions/12345/how-to-center-a-div', clicks: 125, date: '1 week ago' }
-      ];
-
-      // Populate Links Grid
-      function renderLinks() {
-        linksContainer.innerHTML = '';
-        const domain = window.location.hostname || 'secureshort.io';
-        
-        dummyLinks.forEach(link => {
-          const card = document.createElement('div');
-          card.className = 'link-card';
-          card.innerHTML = `
-            <div class="link-header">
-              <a href="#" class="short-link" target="_blank">s.co/${link.id}</a>
-              <button class="copy-btn" title="Copy to clipboard" aria-label="Copy short link">
-                <span aria-hidden="true">📋</span>
-              </button>
-            </div>
-            <a href="${link.original}" class="long-link" title="${link.original}" target="_blank">
-              ${link.original}
-            </a>
-            <div class="link-footer">
-              <span>🗓️ ${link.date}</span>
-              <span class="clicks-badge">📈 ${link.clicks} clicks</span>
-            </div>
-          `;
-          linksContainer.appendChild(card);
-        });
-      }
-      
-      renderLinks();
-
-      // 6. Form Submission (Simulated)
-      const quickShortenForm = document.getElementById('quickShortenForm');
-      const longUrlInput = document.getElementById('longUrl');
-
-      quickShortenForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const url = longUrlInput.value.trim();
-        
-        if (url) {
-          // Change button state
-          const btn = quickShortenForm.querySelector('button');
-          const originalText = btn.innerHTML;
-          btn.innerHTML = `<span style="animation: pulse 1s infinite;">Shortening...</span>`;
-          btn.style.pointerEvents = 'none';
-          
-          // Simulate API call
-          setTimeout(() => {
-            alert(`Successfully shortened:\n${url}\n\n(API connection pending)`);
-            longUrlInput.value = '';
-            btn.innerHTML = originalText;
-            btn.style.pointerEvents = 'auto';
-          }, 800);
-        }
-      });
-
-      // 7. Theme Toggle Logic
-      const themeToggle = document.getElementById('themeToggle');
-      themeToggle.addEventListener('change', () => {
-        if (themeToggle.checked) {
-          document.documentElement.classList.remove('light');
-          document.documentElement.classList.add('dark');
-        } else {
-          document.documentElement.classList.remove('dark');
-          document.documentElement.classList.add('light');
-          alert("Light mode aesthetic coming soon! Staying in dark mode for now.");
-          themeToggle.checked = true; // Revert for demonstration
-        }
-      });
-
-      // 8. Logout logic
-      document.getElementById('logoutBtn').addEventListener('click', (e) => {
-        e.preventDefault();
-        if(confirm("Are you sure you want to log out?")) {
-          // localStorage.removeItem('token');
-          window.location.href = 'login.html';
-        }
-      });
-      
-      // Close sidebar when clicking outside on mobile
-      document.addEventListener('click', (e) => {
-        if (window.innerWidth <= 1024 && sidebar.classList.contains('open')) {
-          if (!sidebar.contains(e.target) && e.target !== sidebarToggle && !sidebarToggle.contains(e.target)) {
-            sidebar.classList.remove('open');
-            sidebarToggle.setAttribute('aria-expanded', 'false');
-          }
-        }
-      });
+      if (targetId === 'mylinks') loadMyLinks();
+      if (targetId === 'analytics') loadAnalytics();
     });
-  </script>
+  });
+
+  // Quick Shorten Form
+  document.getElementById('quickShortenForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const input = document.getElementById('longUrl');
+    const url = input.value.trim();
+
+    if (!url || !url.startsWith('http')) {
+      alert('Please enter a valid URL');
+      return;
+    }
+
+    try {
+      const response = await fetch('http://127.0.0.1:8000/url/shorten', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ long_url: url, custom_alias: null })
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        const resultBox = document.getElementById('resultBox');
+        const shortLinkSpan = document.getElementById('shortLink');
+        shortLinkSpan.textContent = data.short_url;
+        resultBox.style.display = 'block';
+        input.value = '';
+        // Refresh links after creating new one
+        loadMyLinks();
+      } else {
+        alert(data.detail || 'Failed to shorten');
+      }
+    } catch (err) {
+      alert('Cannot connect to backend');
+    }
+  });
+
+  function copyToClipboard() {
+    const text = document.getElementById('shortLink').textContent;
+    if (text) navigator.clipboard.writeText(text).then(() => alert('Copied!'));
+  }
+
+  // Load My Recent Links
+  async function loadMyLinks() {
+    const container = document.getElementById('linksContainer');
+    container.innerHTML = '<p>Loading your links...</p>';
+
+    try {
+      const res = await fetch('http://127.0.0.1:8000/url/my-links');
+      const data = await res.json();
+
+      if (data.links && data.links.length > 0) {
+        let html = '';
+        data.links.forEach(link => {
+          html += `
+            <div class="link-card">
+              <div class="short-link">${link.short_url}</div>
+              <div style="color:#aaa; margin:8px 0; word-break:break-all;">${link.original_url}</div>
+              <div style="color:var(--accent);">Clicks: <strong>${link.click_count}</strong></div>
+            </div>`;
+        });
+        container.innerHTML = html;
+      } else {
+        container.innerHTML = '<p>No links yet. Create your first short URL above!</p>';
+      }
+    } catch (err) {
+      console.error(err);
+      container.innerHTML = '<p>Error loading links. Please check if backend is running.</p>';
+    }
+  }
+
+  // Load Analytics
+  async function loadAnalytics() {
+    const container = document.getElementById('analyticsContent');
+    container.innerHTML = '<p>Loading analytics...</p>';
+
+    try {
+      const res = await fetch('http://127.0.0.1:8000/url/analytics');
+      const data = await res.json();
+
+      let topLinksHtml = '';
+      if (data.top_links && data.top_links.length > 0) {
+        topLinksHtml = `<div class="top-links-title">🏆 Top Clicked Links</div>`;
+        data.top_links.forEach(link => {
+          topLinksHtml += `
+            <div class="top-link-row">
+              <span class="short">${link.short_url}</span>
+              <span class="original">${link.original_url}</span>
+              <span class="click-badge">${link.click_count} clicks</span>
+            </div>`;
+        });
+      } else {
+        topLinksHtml = `<p style="color:var(--muted); margin-top:1rem;">No clicks recorded yet. Share your links to start tracking!</p>`;
+      }
+
+      container.innerHTML = `
+        <div class="stat-grid">
+          <div class="stat-card">
+            <h3>Total Links</h3>
+            <div class="stat-value">${data.total_links}</div>
+          </div>
+          <div class="stat-card">
+            <h3>Total Clicks</h3>
+            <div class="stat-value">${data.total_clicks}</div>
+          </div>
+          <div class="stat-card">
+            <h3>Avg Clicks / Link</h3>
+            <div class="stat-value">${data.avg_clicks_per_link}</div>
+          </div>
+        </div>
+        ${topLinksHtml}
+      `;
+    } catch (err) {
+      console.error(err);
+      container.innerHTML = '<p style="color:#ef4444;">Analytics not available. Backend may not be responding.</p>';
+    }
+  }
+
+  // Initial load
+  loadMyLinks();
+  loadAnalytics();
+</script>
 </body>
 </html>
