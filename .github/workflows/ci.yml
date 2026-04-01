@@ -28,4 +28,4 @@ jobs:
         pip install pytest validators
 
     - name: Run tests (skip DB-dependent)
-      run: PYTHONPATH=. pytest -k "not auth"
+      run: PYTHONPATH=. pytest --ignore=tests/test_auth.py
