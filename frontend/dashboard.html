@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>SecureShort — Dashboard</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
   <style>
     :root {
       --bg: #0a0a0f;
@@ -17,7 +16,6 @@
       --muted: #a0a0cc;
       --border: rgba(255,255,255,0.08);
       --glow: rgba(0,212,255,0.25);
-      --success: #22c55e;
     }
     * { margin:0; padding:0; box-sizing:border-box; }
     body {
@@ -27,79 +25,171 @@
       min-height:100vh;
       display:flex;
     }
-
-    aside { width:280px; background:var(--sidebar); backdrop-filter:blur(16px);
-      border-right:1px solid var(--border); padding:2rem 1.5rem; height:100vh;
-      position:fixed; overflow-y:auto; transition:transform 0.3s; }
-    .logo { font-size:2rem; font-weight:700; background:linear-gradient(90deg,var(--accent),var(--accent2));
-      -webkit-background-clip:text; -webkit-text-fill-color:transparent; margin-bottom:3rem; }
+    aside {
+      width:280px;
+      background:var(--sidebar);
+      backdrop-filter:blur(16px);
+      border-right:1px solid var(--border);
+      padding:2rem 1.5rem;
+      height:100vh;
+      position:fixed;
+      overflow-y:auto;
+    }
+    .logo {
+      font-size:2rem;
+      font-weight:700;
+      background:linear-gradient(90deg,var(--accent),var(--accent2));
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      margin-bottom:3rem;
+    }
     nav ul { list-style:none; }
     nav li { margin-bottom:1.2rem; }
-    nav a { display:flex; align-items:center; gap:1rem; color:var(--muted); text-decoration:none; font-weight:500;
-      padding:0.9rem 1.2rem; border-radius:0.8rem; transition:all 0.3s; cursor:pointer; }
-    nav a:hover, nav a.active { background:rgba(255,255,255,0.08); color:var(--accent); }
+    nav a {
+      display:flex;
+      align-items:center;
+      gap:1rem;
+      color:var(--muted);
+      text-decoration:none;
+      font-weight:500;
+      padding:0.9rem 1.2rem;
+      border-radius:0.8rem;
+      transition:all 0.3s;
+      cursor:pointer;
+    }
+    nav a:hover, nav a.active {
+      background:rgba(255,255,255,0.08);
+      color:var(--accent);
+    }
     nav .icon { font-size:1.3rem; }
-
     main { margin-left:280px; flex:1; padding:2.5rem; }
-    header { display:flex; justify-content:space-between; align-items:center; margin-bottom:2.5rem; flex-wrap:wrap; gap:1rem; }
+    header {
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:2.5rem;
+      flex-wrap:wrap;
+      gap:1rem;
+    }
     h1 { font-size:2.2rem; font-weight:700; }
-
     .section { display:none; }
     .section.active { display:block; }
-
-    .stats { display:grid; grid-template-columns:repeat(auto-fit, minmax(240px,1fr)); gap:1.5rem; margin-bottom:3rem; }
-    .stat-card { background:var(--card); backdrop-filter:blur(20px); border:1px solid var(--border); border-radius:1.2rem;
-      padding:1.8rem; box-shadow:0 15px 40px rgba(0,0,0,0.5); transition:transform 0.3s; }
-    .stat-card:hover { transform:translateY(-6px); }
-    .stat-card h3 { font-size:1.1rem; color:var(--muted); margin-bottom:0.6rem; }
-    .stat-value { font-size:2.2rem; font-weight:700; background:linear-gradient(90deg,var(--accent),var(--accent2));
-      -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
-
-    .quick-form { background:var(--card); backdrop-filter:blur(20px); border:1px solid var(--border); border-radius:1.2rem;
-      padding:2rem; margin-bottom:3rem; }
+    .quick-form {
+      background:var(--card);
+      backdrop-filter:blur(20px);
+      border:1px solid var(--border);
+      border-radius:1.2rem;
+      padding:2rem;
+      margin-bottom:3rem;
+    }
     .quick-form form { display:flex; gap:1rem; flex-wrap:wrap; }
-    .quick-form input { flex:1; min-width:300px; padding:1.1rem 1.4rem; background:rgba(15,15,30,0.7);
-      border:1px solid var(--border); border-radius:0.9rem; color:white; font-size:1.05rem; outline:none; }
-    .quick-form input:focus { border-color:var(--accent); box-shadow:0 0 0 3px var(--glow); }
-    .quick-form button { padding:1.1rem 2.5rem; background:linear-gradient(90deg,var(--accent),var(--accent2));
-      border:none; border-radius:0.9rem; color:white; font-weight:600; font-size:1.05rem; cursor:pointer; transition:all 0.3s; }
-    .quick-form button:hover { transform:translateY(-2px); box-shadow:0 12px 35px var(--glow); }
+    .quick-form input {
+      flex:1;
+      min-width:300px;
+      padding:1.1rem 1.4rem;
+      background:rgba(15,15,30,0.7);
+      border:1px solid var(--border);
+      border-radius:0.9rem;
+      color:white;
+      font-size:1.05rem;
+      outline:none;
+    }
+    .quick-form input:focus {
+      border-color:var(--accent);
+      box-shadow:0 0 0 3px var(--glow);
+    }
+    .quick-form button {
+      padding:1.1rem 2.5rem;
+      background:linear-gradient(90deg,var(--accent),var(--accent2));
+      border:none;
+      border-radius:0.9rem;
+      color:white;
+      font-weight:600;
+      font-size:1.05rem;
+      cursor:pointer;
+    }
+    .result {
+      margin-top: 1.5rem;
+      padding: 1rem;
+      background: rgba(0,212,255,0.1);
+      border: 1px solid rgba(0,212,255,0.3);
+      border-radius: 0.8rem;
+      display: none;
+    }
+    .link-card {
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:1rem;
+      padding:1.5rem;
+      margin-bottom:1rem;
+    }
+    .short-link {
+      color:var(--accent);
+      font-weight:600;
+      font-size:1.2rem;
+      word-break:break-all;
+    }
 
-    .links-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(340px,1fr)); gap:1.8rem; }
-    .link-card { background:var(--card); backdrop-filter:blur(20px); border:1px solid var(--border); border-radius:1.2rem;
-      padding:1.8rem; transition:transform 0.3s; }
-    .link-card:hover { transform:translateY(-8px); box-shadow:0 20px 50px rgba(0,212,255,0.15); }
-    .short-link { font-size:1.3rem; font-weight:600; color:var(--accent); margin-bottom:0.8rem; word-break:break-all; }
-    .long-link { font-size:0.95rem; color:var(--muted); margin-bottom:1rem; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
-
-    /* Settings styles */
-    .settings-container { background:var(--card); backdrop-filter:blur(20px); border:1px solid var(--border);
-      border-radius:1.2rem; padding:2rem; }
-    .settings-item { margin-bottom:2rem; }
-    .settings-item h3 { margin-bottom:1rem; font-size:1.4rem; }
-    .toggle-switch { position:relative; display:inline-block; width:60px; height:34px; }
-    .toggle-switch input { opacity:0; width:0; height:0; }
-    .slider { position:absolute; cursor:pointer; top:0; left:0; right:0; bottom:0; background-color:var(--muted);
-      transition:.4s; border-radius:34px; }
-    .slider:before { position:absolute; content:""; height:26px; width:26px; left:4px; bottom:4px; background-color:white;
-      transition:.4s; border-radius:50%; }
-    input:checked + .slider { background:var(--accent); }
-    input:checked + .slider:before { transform:translateX(26px); }
-    .btn { padding:0.8rem 1.5rem; border:none; border-radius:0.8rem; font-weight:500; cursor:pointer; transition:all 0.3s; }
-    .btn-primary { background:linear-gradient(90deg,var(--accent),var(--accent2)); color:white; }
-    .btn-primary:hover { transform:translateY(-2px); box-shadow:0 8px 25px var(--glow); }
-
-    #sidebarToggle { display:none; }
-    @media (max-width:1024px) {
-      aside { transform:translateX(-100%); width:260px; }
-      main { margin-left:0; }
-      #sidebarToggle { display:block; background:none; border:none; color:var(--accent); font-size:1.8rem; cursor:pointer; }
-      aside.open { transform:translateX(0); }
+    /* ── Analytics ── */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2.5rem;
+    }
+    .stat-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 1.8rem;
+      border-radius: 1rem;
+      text-align: center;
+    }
+    .stat-card h3 {
+      color: var(--muted);
+      font-size: 0.95rem;
+      font-weight: 500;
+      margin-bottom: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .stat-value {
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+    .top-links-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: var(--text);
+    }
+    .top-link-row {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 0.9rem;
+      padding: 1.2rem 1.5rem;
+      margin-bottom: 0.8rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .top-link-row .short { color: var(--accent); font-weight: 600; }
+    .top-link-row .original { color: var(--muted); font-size: 0.9rem; word-break: break-all; flex: 1; }
+    .click-badge {
+      background: rgba(0,212,255,0.15);
+      color: var(--accent);
+      border: 1px solid rgba(0,212,255,0.3);
+      padding: 0.3rem 0.9rem;
+      border-radius: 2rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      white-space: nowrap;
     }
   </style>
 </head>
 <body>
-
   <aside id="sidebar">
     <div class="logo">SecureShort</div>
     <nav>
@@ -114,149 +204,198 @@
 
   <main>
     <header>
-      <button id="sidebarToggle">☰</button>
       <h1 id="pageTitle">Dashboard</h1>
-      <div>Welcome, <span id="username">Gunaseelan</span></div>
+      <div>Welcome, <span id="username">User</span></div>
     </header>
+
+    <!-- Quick Shorten -->
+    <div class="quick-form">
+      <form id="quickShortenForm">
+        <input type="url" id="longUrl" placeholder="Paste long URL here to shorten..." required/>
+        <button type="submit">Shorten Now</button>
+      </form>
+      <div class="result" id="resultBox">
+        <strong>Your short link:</strong>
+        <span id="shortLink"></span>
+        <button onclick="copyToClipboard()" style="margin-left:1rem; padding:0.5rem 1rem;">Copy</button>
+      </div>
+    </div>
 
     <!-- My Links -->
     <div id="mylinks" class="section active">
-      <div class="stats">
-        <div class="stat-card"><h3>Total Short Links</h3><div class="stat-value" id="totalLinks">0</div></div>
-        <div class="stat-card"><h3>Total Clicks</h3><div class="stat-value" id="totalClicks">0</div></div>
-        <div class="stat-card"><h3>Avg. Clicks / Link</h3><div class="stat-value" id="avgClicks">0</div></div>
-      </div>
-
-      <div class="quick-form">
-        <form id="quickShortenForm">
-          <input type="url" id="longUrl" placeholder="Paste long URL here..." required/>
-          <button type="submit">Shorten Now</button>
-        </form>
-      </div>
-
-      <h2>Your Recent Links</h2>
+      <h2 style="margin-bottom:1.2rem;">Your Recent Links</h2>
       <div class="links-grid" id="linksContainer">
-        <!-- JS will fill this -->
+        <p>Loading your links...</p>
       </div>
     </div>
 
     <!-- Analytics -->
     <div id="analytics" class="section">
-      <h1>Analytics Overview</h1>
-      <div class="stats">
-        <div class="stat-card"><h3>Top Country</h3><div class="stat-value">India</div></div>
-        <div class="stat-card"><h3>Top Device</h3><div class="stat-value">Mobile</div></div>
-        <div class="stat-card"><h3>Peak Time</h3><div class="stat-value">8 PM</div></div>
-      </div>
-      <div style="background:var(--card); border-radius:1.2rem; padding:2rem; margin-top:2rem;">
-        <h3>Click Trend (Last 30 days)</h3>
-        <div style="height:300px; background:rgba(255,255,255,0.05); border-radius:1rem; margin-top:1rem;"></div>
+      <h2 style="margin-bottom:1.5rem;">Analytics Overview</h2>
+      <div id="analyticsContent">
+        <p>Loading analytics...</p>
       </div>
     </div>
 
-    <!-- Settings (clean & minimal) -->
+    <!-- Settings -->
     <div id="settings" class="section">
-      <h1>Settings</h1>
-      <div class="settings-container">
-        <div class="settings-item">
-          <h3>Account Info</h3>
-          <p><strong>Email:</strong> <span id="userEmail">gunaseelan@example.com</span></p>
-          <p><strong>Joined:</strong> February 2026</p>
-          <p><strong>Plan:</strong> Free (upgrade coming soon)</p>
-        </div>
-
-        <div class="settings-item">
-          <h3>Appearance</h3>
-          <label style="display:flex; align-items:center; gap:1rem; cursor:pointer;">
-            <span>Dark Mode</span>
-            <label class="toggle-switch">
-              <input type="checkbox" id="themeToggle" checked>
-              <span class="slider"></span>
-            </label>
-          </label>
-        </div>
-
-        <div class="settings-item">
-          <h3>Notifications</h3>
-          <label style="display:flex; align-items:center; gap:1rem; cursor:pointer;">
-            <input type="checkbox" id="emailNotif" checked>
-            <span>Email notifications for new clicks</span>
-          </label>
-        </div>
-
-        <div class="settings-item" style="margin-top:2rem;">
-          <button class="btn btn-primary">Export My Data</button>
-        </div>
-      </div>
+      <h2>Settings</h2>
+      <p style="color:var(--muted); margin-top:1rem;">Account settings coming soon...</p>
     </div>
   </main>
 
   <script>
-    // Token check
-    const token = localStorage.getItem('token');
-    if (!token) {
-      alert('Please login first');
-      window.location.href = 'login.html';
+  // Token protection
+  if (!localStorage.getItem('token')) {
+    alert('Please login first');
+    window.location.href = 'login.html';
+  }
+
+  // Logout
+  document.getElementById('logoutBtn').addEventListener('click', () => {
+    localStorage.removeItem('token');
+    window.location.href = 'login.html';
+  });
+
+  // Navigation
+  document.querySelectorAll('.nav-link').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const targetId = link.getAttribute('href').substring(1);
+      
+      document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+      link.classList.add('active');
+
+      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+      document.getElementById(targetId).classList.add('active');
+
+      document.getElementById('pageTitle').textContent = link.textContent.trim();
+
+      if (targetId === 'mylinks') loadMyLinks();
+      if (targetId === 'analytics') loadAnalytics();
+    });
+  });
+
+  // Quick Shorten Form
+  document.getElementById('quickShortenForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const input = document.getElementById('longUrl');
+    const url = input.value.trim();
+
+    if (!url || !url.startsWith('http')) {
+      alert('Please enter a valid URL');
+      return;
     }
 
-    // Logout
-    document.getElementById('logoutBtn').addEventListener('click', (e) => {
-      e.preventDefault();
-      localStorage.removeItem('token');
-      window.location.href = 'login.html';
-    });
-
-    // Navigation
-    const navLinks = document.querySelectorAll('.nav-link');
-    const sections = document.querySelectorAll('.section');
-    const pageTitle = document.getElementById('pageTitle');
-
-    navLinks.forEach(link => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        const targetId = link.getAttribute('href')?.substring(1);
-        if (!targetId) return;
-
-        navLinks.forEach(l => l.classList.remove('active'));
-        link.classList.add('active');
-
-        sections.forEach(s => s.classList.remove('active'));
-        document.getElementById(targetId).classList.add('active');
-
-        pageTitle.textContent = link.textContent.trim();
+    try {
+      const response = await fetch('http://127.0.0.1:8000/url/shorten', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ long_url: url, custom_alias: null })
       });
-    });
 
-    // Mobile sidebar
-    document.getElementById('sidebarToggle').addEventListener('click', () => {
-      document.getElementById('sidebar').classList.toggle('open');
-    });
+      const data = await response.json();
 
-    // Quick shorten placeholder
-    document.getElementById('quickShortenForm').addEventListener('submit', (e) => {
-      e.preventDefault();
-      const url = document.getElementById('longUrl').value.trim();
-      if (url) {
-        alert(`Shortening: ${url}\n(Real API call coming soon)`);
-        document.getElementById('longUrl').value = '';
-      }
-    });
-
-    // Theme toggle (simple dark/light switch)
-    const themeToggle = document.getElementById('themeToggle');
-    themeToggle.addEventListener('change', () => {
-      if (themeToggle.checked) {
-        document.documentElement.classList.remove('light');
-        document.documentElement.classList.add('dark');
+      if (response.ok) {
+        const resultBox = document.getElementById('resultBox');
+        const shortLinkSpan = document.getElementById('shortLink');
+        shortLinkSpan.textContent = data.short_url;
+        resultBox.style.display = 'block';
+        input.value = '';
+        // Refresh links after creating new one
+        loadMyLinks();
       } else {
-        document.documentElement.classList.remove('dark');
-        document.documentElement.classList.add('light');
+        alert(data.detail || 'Failed to shorten');
       }
-    });
+    } catch (err) {
+      alert('Cannot connect to backend');
+    }
+  });
 
-    // Dummy user info
-    document.getElementById('username').textContent = "Gunaseelan";
-    document.getElementById('userEmail').textContent = "gunaseelan@example.com";
-  </script>
+  function copyToClipboard() {
+    const text = document.getElementById('shortLink').textContent;
+    if (text) navigator.clipboard.writeText(text).then(() => alert('Copied!'));
+  }
+
+  // Load My Recent Links
+  async function loadMyLinks() {
+    const container = document.getElementById('linksContainer');
+    container.innerHTML = '<p>Loading your links...</p>';
+
+    try {
+      const res = await fetch('http://127.0.0.1:8000/url/my-links');
+      const data = await res.json();
+
+      if (data.links && data.links.length > 0) {
+        let html = '';
+        data.links.forEach(link => {
+          html += `
+            <div class="link-card">
+              <div class="short-link">${link.short_url}</div>
+              <div style="color:#aaa; margin:8px 0; word-break:break-all;">${link.original_url}</div>
+              <div style="color:var(--accent);">Clicks: <strong>${link.click_count}</strong></div>
+            </div>`;
+        });
+        container.innerHTML = html;
+      } else {
+        container.innerHTML = '<p>No links yet. Create your first short URL above!</p>';
+      }
+    } catch (err) {
+      console.error(err);
+      container.innerHTML = '<p>Error loading links. Please check if backend is running.</p>';
+    }
+  }
+
+  // Load Analytics
+  async function loadAnalytics() {
+    const container = document.getElementById('analyticsContent');
+    container.innerHTML = '<p>Loading analytics...</p>';
+
+    try {
+      const res = await fetch('http://127.0.0.1:8000/url/analytics');
+      const data = await res.json();
+
+      let topLinksHtml = '';
+      if (data.top_links && data.top_links.length > 0) {
+        topLinksHtml = `<div class="top-links-title">🏆 Top Clicked Links</div>`;
+        data.top_links.forEach(link => {
+          topLinksHtml += `
+            <div class="top-link-row">
+              <span class="short">${link.short_url}</span>
+              <span class="original">${link.original_url}</span>
+              <span class="click-badge">${link.click_count} clicks</span>
+            </div>`;
+        });
+      } else {
+        topLinksHtml = `<p style="color:var(--muted); margin-top:1rem;">No clicks recorded yet. Share your links to start tracking!</p>`;
+      }
+
+      container.innerHTML = `
+        <div class="stat-grid">
+          <div class="stat-card">
+            <h3>Total Links</h3>
+            <div class="stat-value">${data.total_links}</div>
+          </div>
+          <div class="stat-card">
+            <h3>Total Clicks</h3>
+            <div class="stat-value">${data.total_clicks}</div>
+          </div>
+          <div class="stat-card">
+            <h3>Avg Clicks / Link</h3>
+            <div class="stat-value">${data.avg_clicks_per_link}</div>
+          </div>
+        </div>
+        ${topLinksHtml}
+      `;
+    } catch (err) {
+      console.error(err);
+      container.innerHTML = '<p style="color:#ef4444;">Analytics not available. Backend may not be responding.</p>';
+    }
+  }
+
+  // Initial load
+  loadMyLinks();
+  loadAnalytics();
+</script>
 </body>
 </html>
